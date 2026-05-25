@@ -1,0 +1,23 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+*.log
+evaluation_results.json
+.pytest_cache/
+.mypy_cache/
+*.ipynb_checkpoints/
+
+# ChromaDB data (keep directory structure via .gitkeep)
+data/chroma_db/*
+!data/chroma_db/.gitkeep
+
+# Hugging Face model cache
+.cache/
