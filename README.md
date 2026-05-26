@@ -17,7 +17,7 @@ User query ──► embedder.py ──► vector search ──► top-k chunks 
                                               prompt.py (system + context + history)
                                                                   │
                                                                   ▼
-                                              ChatOllama → Llama 3.2 1B (local)
+                                              ChatOllama → Llama 3.2 latest (local)
                                                                   │
                                                    ┌──────────────┘
                                                    ▼
@@ -90,7 +90,7 @@ User query ──► embedder.py ──► vector search ──► top-k chunks 
 **Windows / macOS:**
 ```bash
 # Download from https://ollama.com and run the installer, then:
-ollama pull llama3.2:1b
+ollama pull llama3.2 latest
 ollama serve          # keep this terminal open (or it runs as a service)
 ```
 
