@@ -71,9 +71,11 @@ async def astream_response(
     Yields:
         Event dictionaries as described above.
     """
+    yield {"type": "thinking", "content": "Searching knowledge base…"}
     documents = retrieve(query)
     context = format_context(documents)
 
+    yield {"type": "thinking", "content": "Generating response…"}
     chain = build_prompt() | _get_llm() | StrOutputParser()
 
     async for token in chain.astream(

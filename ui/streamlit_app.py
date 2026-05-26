@@ -24,12 +24,54 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------------------------
+# Custom CSS — thinking animation + chat polish
+# ---------------------------------------------------------------------------
+st.markdown(
+    """
+    <style>
+    @keyframes thinking-pulse {
+        0%   { opacity: 1; }
+        50%  { opacity: 0.35; }
+        100% { opacity: 1; }
+    }
+    .thinking-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        background: #f0f2f6;
+        border-left: 3px solid #4a90d9;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        color: #444;
+        animation: thinking-pulse 1.4s ease-in-out infinite;
+        margin-bottom: 6px;
+    }
+    .thinking-box .dot-row {
+        display: flex;
+        gap: 4px;
+    }
+    .thinking-box .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #4a90d9;
+        animation: thinking-pulse 1.4s ease-in-out infinite;
+    }
+    .thinking-box .dot:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-box .dot:nth-child(3) { animation-delay: 0.4s; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+# ---------------------------------------------------------------------------
 # Session state initialisation
 # ---------------------------------------------------------------------------
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 if "messages" not in st.session_state:
-    st.session_state.messages = []  # [{"role": "user"|"assistant", "content": str, "sources": list}]
+    st.session_state.messages = []
 if "last_sources" not in st.session_state:
     st.session_state.last_sources = []
 
@@ -38,21 +80,37 @@ if "last_sources" not in st.session_state:
 # Helpers
 # ---------------------------------------------------------------------------
 
-def stream_chat(query: str, session_id: str) -> Generator[str, None, None]:
+def _thinking_html(label: str) -> str:
+    return (
+        f'<div class="thinking-box">'
+        f'<span>{label}</span>'
+        f'<div class="dot-row">'
+        f'<div class="dot"></div><div class="dot"></div><div class="dot"></div>'
+        f'</div></div>'
+    )
+
+
+def stream_chat(
+    query: str,
+    session_id: str,
+    thinking_slot,
+) -> Generator[str, None, None]:
     """Consume the FastAPI SSE stream and yield raw text tokens.
 
-    As a side-effect, populates ``st.session_state.last_sources`` once
-    the sources frame arrives, so the UI can render them after the stream.
+    Displays animated thinking steps in ``thinking_slot`` until the first
+    token arrives, then clears the slot so the streamed text takes over.
 
     Args:
         query: The user's question.
         session_id: Current conversation session identifier.
+        thinking_slot: A ``st.empty()`` placeholder for the thinking indicator.
 
     Yields:
         Partial response text tokens as they arrive.
     """
     url = f"{settings.streamlit_api_url}/chat"
     sources: List[dict] = []
+    first_token = True
 
     with requests.post(
         url,
@@ -65,14 +123,23 @@ def stream_chat(query: str, session_id: str) -> Generator[str, None, None]:
             if not raw_line or not raw_line.startswith(b"data: "):
                 continue
             event = json.loads(raw_line[6:])
-            if event["type"] == "token":
+
+            if event["type"] == "thinking":
+                thinking_slot.markdown(
+                    _thinking_html(event["content"]),
+                    unsafe_allow_html=True,
+                )
+            elif event["type"] == "token":
+                if first_token:
+                    thinking_slot.empty()
+                    first_token = False
                 yield event["content"]
             elif event["type"] == "sources":
                 sources = event["content"]
             elif event["type"] == "error":
+                thinking_slot.empty()
                 raise RuntimeError(event["content"])
 
-    # Runs after generator is fully exhausted by st.write_stream
     st.session_state.last_sources = sources
 
 
@@ -91,11 +158,10 @@ def fetch_health() -> dict:
 # ---------------------------------------------------------------------------
 with st.sidebar:
     st.title("🤖 RAG Chatbot")
-    st.caption("Powered by Llama 3.2 1B · ChromaDB · all-MiniLM-L6-v2")
+    st.caption("Powered by Llama 3.2 · ChromaDB · all-MiniLM-L6-v2")
 
     st.divider()
 
-    # System status
     health = fetch_health()
     if health:
         st.success("API connected", icon="✅")
@@ -106,11 +172,9 @@ with st.sidebar:
 
     st.divider()
 
-    # Session controls
     st.subheader("Session")
     st.caption(f"ID: `{st.session_state.session_id[:12]}…`")
     if st.button("🗑️ New conversation", use_container_width=True):
-        # Clear history on the server too
         try:
             requests.delete(
                 f"{settings.streamlit_api_url}/chat/{st.session_state.session_id}",
@@ -125,7 +189,6 @@ with st.sidebar:
 
     st.divider()
 
-    # Retrieved chunks debug panel
     st.subheader("Retrieved Context")
     if st.session_state.last_sources:
         for i, chunk in enumerate(st.session_state.last_sources, start=1):
@@ -157,16 +220,18 @@ for msg in st.session_state.messages:
 
 # Chat input
 if prompt := st.chat_input("Type your question here…"):
-    # Append and display user message immediately
     st.session_state.messages.append({"role": "user", "content": prompt, "sources": []})
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Stream the assistant response
     with st.chat_message("assistant"):
+        # Thinking indicator — cleared automatically when first token arrives
+        thinking_slot = st.empty()
+        thinking_slot.markdown(_thinking_html("Thinking…"), unsafe_allow_html=True)
+
         try:
             response_text = st.write_stream(
-                stream_chat(prompt, st.session_state.session_id)
+                stream_chat(prompt, st.session_state.session_id, thinking_slot)
             )
             retrieved_sources = st.session_state.last_sources
 
@@ -179,6 +244,7 @@ if prompt := st.chat_input("Type your question here…"):
                         st.code(src["content"], language=None)
 
         except requests.exceptions.ConnectionError:
+            thinking_slot.empty()
             response_text = (
                 "Cannot reach the API server. "
                 "Run `uvicorn app.api.main:app --reload` and refresh."
@@ -186,6 +252,7 @@ if prompt := st.chat_input("Type your question here…"):
             retrieved_sources = []
             st.error(response_text)
         except Exception as exc:
+            thinking_slot.empty()
             response_text = f"Error: {exc}"
             retrieved_sources = []
             st.error(response_text)
