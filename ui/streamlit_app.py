@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import json
 import uuid
-from typing import Generator, List
+from typing import List
 
 import requests
 import streamlit as st
@@ -24,49 +24,64 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------------------------
-# Custom CSS — thinking animation + chat polish
+# Custom CSS
 # ---------------------------------------------------------------------------
 st.markdown(
     """
     <style>
-    @keyframes thinking-pulse {
-        0%   { opacity: 1; }
-        50%  { opacity: 0.35; }
-        100% { opacity: 1; }
+    /* ── User messages: right side ─────────────────────────────────────── */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
+        flex-direction: row-reverse;
     }
-    .thinking-box {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 14px;
-        background: #f0f2f6;
-        border-left: 3px solid #4a90d9;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        color: #444;
-        animation: thinking-pulse 1.4s ease-in-out infinite;
-        margin-bottom: 6px;
+
+    /* Push user bubble text to the right */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"])
+        > div:last-child {
+        align-items: flex-end;
     }
-    .thinking-box .dot-row {
-        display: flex;
-        gap: 4px;
+
+    /* User bubble */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"])
+        [data-testid="stMarkdownContainer"] p {
+        background: #1a73e8;
+        color: #ffffff;
+        border-radius: 18px 4px 18px 18px;
+        padding: 10px 16px;
+        display: inline-block;
+        max-width: 100%;
+        margin: 0;
+        line-height: 1.5;
     }
-    .thinking-box .dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #4a90d9;
-        animation: thinking-pulse 1.4s ease-in-out infinite;
+
+    /* ── Assistant bubble ───────────────────────────────────────────────── */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"])
+        > div:last-child {
+        align-items: flex-start;
+        max-width: 80%;
     }
-    .thinking-box .dot:nth-child(2) { animation-delay: 0.2s; }
-    .thinking-box .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    /* ── Typing cursor blink ────────────────────────────────────────────── */
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0; }
+    }
+    .cursor {
+        display: inline-block;
+        width: 9px;
+        height: 1.1em;
+        background: #444;
+        vertical-align: text-bottom;
+        margin-left: 2px;
+        border-radius: 1px;
+        animation: blink 0.85s step-start infinite;
+    }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
 # ---------------------------------------------------------------------------
-# Session state initialisation
+# Session state
 # ---------------------------------------------------------------------------
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
@@ -80,77 +95,108 @@ if "last_sources" not in st.session_state:
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _thinking_html(label: str) -> str:
-    return (
-        f'<div class="thinking-box">'
-        f'<span>{label}</span>'
-        f'<div class="dot-row">'
-        f'<div class="dot"></div><div class="dot"></div><div class="dot"></div>'
-        f'</div></div>'
-    )
+def fetch_health() -> dict:
+    try:
+        r = requests.get(f"{settings.streamlit_api_url}/health", timeout=4)
+        r.raise_for_status()
+        return r.json()
+    except Exception:
+        return {}
 
 
-def stream_chat(
-    query: str,
-    session_id: str,
-    thinking_slot,
-) -> Generator[str, None, None]:
-    """Consume the FastAPI SSE stream and yield raw text tokens.
+def render_response(prompt: str, session_id: str) -> tuple[str, List[dict]]:
+    """Connect to the SSE stream, show thinking steps and stream the reply.
 
-    Displays animated thinking steps in ``thinking_slot`` until the first
-    token arrives, then clears the slot so the streamed text takes over.
+    Uses st.status() so the user can watch every thinking step live and
+    re-open the panel after the response is done. The reply text is
+    rendered character-by-character with a blinking cursor.
 
-    Args:
-        query: The user's question.
-        session_id: Current conversation session identifier.
-        thinking_slot: A ``st.empty()`` placeholder for the thinking indicator.
-
-    Yields:
-        Partial response text tokens as they arrive.
+    Returns:
+        (full response text, list of source dicts)
     """
     url = f"{settings.streamlit_api_url}/chat"
     sources: List[dict] = []
+    full_text = ""
     first_token = True
 
-    with requests.post(
-        url,
-        json={"query": query, "session_id": session_id},
-        stream=True,
-        timeout=180,
-    ) as resp:
-        resp.raise_for_status()
-        for raw_line in resp.iter_lines():
-            if not raw_line or not raw_line.startswith(b"data: "):
-                continue
-            event = json.loads(raw_line[6:])
+    # Thinking panel — user can expand / collapse at any time
+    status = st.status("Thinking…", expanded=True)
+    # Streaming text slot — lives below the status widget
+    text_slot = st.empty()
 
-            if event["type"] == "thinking":
-                thinking_slot.markdown(
-                    _thinking_html(event["content"]),
-                    unsafe_allow_html=True,
-                )
-            elif event["type"] == "token":
-                if first_token:
-                    thinking_slot.empty()
-                    first_token = False
-                yield event["content"]
-            elif event["type"] == "sources":
-                sources = event["content"]
-            elif event["type"] == "error":
-                thinking_slot.empty()
-                raise RuntimeError(event["content"])
+    try:
+        with requests.post(
+            url,
+            json={"query": prompt, "session_id": session_id},
+            stream=True,
+            timeout=180,
+        ) as resp:
+            resp.raise_for_status()
+
+            for raw_line in resp.iter_lines():
+                if not raw_line or not raw_line.startswith(b"data: "):
+                    continue
+                event = json.loads(raw_line[6:])
+
+                if event["type"] == "thinking":
+                    with status:
+                        st.markdown(f"🔍 {event['content']}")
+
+                elif event["type"] == "token":
+                    if first_token:
+                        # Transition the status panel to "generating" state
+                        status.update(
+                            label="Generating response…",
+                            state="running",
+                            expanded=True,
+                        )
+                        with status:
+                            st.markdown("✍️ Writing answer…")
+                        first_token = False
+
+                    full_text += event["content"]
+                    # Show text with a blinking cursor while streaming
+                    text_slot.markdown(
+                        full_text + '<span class="cursor"></span>',
+                        unsafe_allow_html=True,
+                    )
+
+                elif event["type"] == "sources":
+                    sources = event["content"]
+
+                elif event["type"] == "done":
+                    # Final render — remove cursor, collapse status
+                    text_slot.markdown(full_text)
+                    status.update(
+                        label="Response complete",
+                        state="complete",
+                        expanded=False,
+                    )
+
+                elif event["type"] == "error":
+                    status.update(label="Error", state="error", expanded=True)
+                    with status:
+                        st.error(event["content"])
+                    raise RuntimeError(event["content"])
+
+    except requests.exceptions.ConnectionError:
+        status.update(label="Connection failed", state="error", expanded=True)
+        with status:
+            st.error(
+                "Cannot reach the API server. "
+                "Run `uvicorn app.api.main:app --reload` and refresh."
+            )
+        full_text = "⚠️ API server is unreachable."
+
+    except Exception as exc:
+        if "RuntimeError" not in type(exc).__name__:
+            status.update(label="Error", state="error", expanded=True)
+            with status:
+                st.error(str(exc))
+        full_text = full_text or f"⚠️ {exc}"
 
     st.session_state.last_sources = sources
-
-
-def fetch_health() -> dict:
-    """Fetch the /health endpoint; return empty dict on failure."""
-    try:
-        resp = requests.get(f"{settings.streamlit_api_url}/health", timeout=4)
-        resp.raise_for_status()
-        return resp.json()
-    except Exception:
-        return {}
+    return full_text, sources
 
 
 # ---------------------------------------------------------------------------
@@ -192,8 +238,7 @@ with st.sidebar:
     st.subheader("Retrieved Context")
     if st.session_state.last_sources:
         for i, chunk in enumerate(st.session_state.last_sources, start=1):
-            label = f"Chunk {i} · {chunk['source']} p.{chunk['page']}"
-            with st.expander(label, expanded=False):
+            with st.expander(f"Chunk {i} · {chunk['source']} p.{chunk['page']}"):
                 st.text(chunk["content"])
     else:
         st.caption("Ask a question to see which chunks were retrieved.")
@@ -213,54 +258,30 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
         if msg["role"] == "assistant" and msg.get("sources"):
-            with st.expander(f"📄 Sources ({len(msg['sources'])} chunk(s))", expanded=False):
+            with st.expander(f"📄 Sources ({len(msg['sources'])} chunk(s))"):
                 for src in msg["sources"]:
                     st.markdown(f"**{src['source']}** — p.{src['page']}")
                     st.code(src["content"], language=None)
 
 # Chat input
 if prompt := st.chat_input("Type your question here…"):
+    # User message — rendered on the RIGHT via CSS
     st.session_state.messages.append({"role": "user", "content": prompt, "sources": []})
     with st.chat_message("user"):
         st.markdown(prompt)
 
+    # Assistant message — rendered on the LEFT
     with st.chat_message("assistant"):
-        # Thinking indicator — cleared automatically when first token arrives
-        thinking_slot = st.empty()
-        thinking_slot.markdown(_thinking_html("Thinking…"), unsafe_allow_html=True)
+        response_text, retrieved_sources = render_response(
+            prompt, st.session_state.session_id
+        )
 
-        try:
-            response_text = st.write_stream(
-                stream_chat(prompt, st.session_state.session_id, thinking_slot)
-            )
-            retrieved_sources = st.session_state.last_sources
-
-            if retrieved_sources:
-                with st.expander(
-                    f"📄 Sources ({len(retrieved_sources)} chunk(s))", expanded=False
-                ):
-                    for src in retrieved_sources:
-                        st.markdown(f"**{src['source']}** — p.{src['page']}")
-                        st.code(src["content"], language=None)
-
-        except requests.exceptions.ConnectionError:
-            thinking_slot.empty()
-            response_text = (
-                "Cannot reach the API server. "
-                "Run `uvicorn app.api.main:app --reload` and refresh."
-            )
-            retrieved_sources = []
-            st.error(response_text)
-        except Exception as exc:
-            thinking_slot.empty()
-            response_text = f"Error: {exc}"
-            retrieved_sources = []
-            st.error(response_text)
+        if retrieved_sources:
+            with st.expander(f"📄 Sources ({len(retrieved_sources)} chunk(s))"):
+                for src in retrieved_sources:
+                    st.markdown(f"**{src['source']}** — p.{src['page']}")
+                    st.code(src["content"], language=None)
 
     st.session_state.messages.append(
-        {
-            "role": "assistant",
-            "content": response_text,
-            "sources": retrieved_sources,
-        }
+        {"role": "assistant", "content": response_text, "sources": retrieved_sources}
     )
