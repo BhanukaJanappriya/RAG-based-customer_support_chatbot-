@@ -1,4 +1,4 @@
-"""Document loading utilities for PDF and Markdown files."""
+"""Document loading utilities for PDF, Markdown, and plain-text files."""
 
 import logging
 from pathlib import Path
@@ -51,6 +51,26 @@ def load_markdown(file_path: Path) -> List[Document]:
     return docs
 
 
+def load_text(file_path: Path) -> List[Document]:
+    """Load a plain-text (.txt) file as a single Document.
+
+    Args:
+        file_path: Absolute or relative path to the .txt file.
+
+    Returns:
+        List with a single Document containing the full file content.
+    """
+    logger.info(f"Loading text file: {file_path.name}")
+    loader = TextLoader(str(file_path), encoding="utf-8")
+    docs = loader.load()
+    for doc in docs:
+        doc.metadata["source"] = file_path.name
+        doc.metadata["file_type"] = "text"
+        doc.metadata.setdefault("page", 1)
+    logger.info(f"  → {len(docs)} document(s) from {file_path.name}")
+    return docs
+
+
 def load_directory(data_dir: Path) -> List[Document]:
     """Recursively load all PDFs and Markdown files from a directory.
 
@@ -68,9 +88,11 @@ def load_directory(data_dir: Path) -> List[Document]:
 
     pdf_files = sorted(data_dir.glob("**/*.pdf"))
     md_files = sorted(data_dir.glob("**/*.md"))
+    txt_files = sorted(data_dir.glob("**/*.txt"))
 
     logger.info(
-        f"Found {len(pdf_files)} PDF(s) and {len(md_files)} Markdown file(s) in {data_dir}"
+        f"Found {len(pdf_files)} PDF(s), {len(md_files)} Markdown file(s), "
+        f"and {len(txt_files)} text file(s) in {data_dir}"
     )
 
     documents: List[Document] = []
@@ -86,6 +108,12 @@ def load_directory(data_dir: Path) -> List[Document]:
             documents.extend(load_markdown(md_path))
         except Exception as exc:
             logger.error(f"Failed to load {md_path.name}: {exc}")
+
+    for txt_path in txt_files:
+        try:
+            documents.extend(load_text(txt_path))
+        except Exception as exc:
+            logger.error(f"Failed to load {txt_path.name}: {exc}")
 
     logger.info(f"Total raw documents loaded: {len(documents)}")
     return documents
