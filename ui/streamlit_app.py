@@ -1,4 +1,8 @@
 """Streamlit chat interface for the RAG customer support chatbot."""
+# Ensure the project root is importable when this script is run directly
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import json
 import uuid

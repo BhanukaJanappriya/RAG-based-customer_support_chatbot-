@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# Ensure the project root is importable when this script is run directly
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 """Evaluation script: retrieval Precision@k and LLM-as-judge grounding score.
 
 Usage
