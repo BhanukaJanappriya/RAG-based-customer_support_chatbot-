@@ -42,6 +42,7 @@ def retrieve(query: str, top_k: Optional[int] = None) -> List[Document]:
 
     logger.info(
         f"Retrieval: {len(filtered)}/{len(results)} chunks passed threshold "
-        f"{settings.similarity_threshold} for query='{query[:60]}'"
+        f"{settings.similarity_threshold} — scores: {[round(s,3) for _,s in results]} "
+        f"for query='{query[:60]}'"
     )
     return filtered
