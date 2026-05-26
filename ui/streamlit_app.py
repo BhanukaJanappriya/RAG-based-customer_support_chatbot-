@@ -32,7 +32,7 @@ st.markdown(
 
     /* ── App background ─────────────────────────────────────────────────── */
     .stApp {
-        background-color: #efeae2;
+        background-color: #000000;
     }
 
     /* ── Chat message base reset ─────────────────────────────────────────── */
@@ -55,13 +55,13 @@ st.markdown(
         flex-shrink: 0 !important;
     }
 
-    /* ── USER messages — LEFT side (white bubble) ────────────────────────── */
-    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
+    /* ── ASSISTANT messages — LEFT side (white bubble) ──────────────────── */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
         flex-direction: row;
         justify-content: flex-start;
     }
 
-    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"])
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"])
         > div:last-child {
         background: #ffffff;
         border-radius: 0px 16px 16px 16px;
@@ -71,20 +71,20 @@ st.markdown(
         align-items: flex-start;
     }
 
-    /* Remove extra margins inside user bubble */
-    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"])
+    /* Remove extra margins inside assistant bubble */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"])
         > div:last-child p {
         margin: 0 !important;
         line-height: 1.45;
     }
 
-    /* ── ASSISTANT messages — RIGHT side (green bubble) ──────────────────── */
-    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
+    /* ── USER messages — RIGHT side (green bubble) ───────────────────────── */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
         flex-direction: row-reverse;
         justify-content: flex-start;
     }
 
-    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"])
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"])
         > div:last-child {
         background: #dcf8c6;
         border-radius: 16px 0px 16px 16px;
@@ -94,8 +94,8 @@ st.markdown(
         align-items: flex-end;
     }
 
-    /* Remove extra margins inside assistant bubble */
-    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"])
+    /* Remove extra margins inside user bubble */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"])
         > div:last-child p {
         margin: 0 !important;
         line-height: 1.45;
