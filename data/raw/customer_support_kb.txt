@@ -1,0 +1,146 @@
+ACME Store — Customer Support Knowledge Base
+============================================
+
+SECTION 1: RETURNS AND REFUNDS
+-------------------------------
+
+Return Policy
+We accept returns within 30 days of the original purchase date. Items must be unused, in their original packaging, and accompanied by a valid receipt or order confirmation email. Damaged, opened, or used items are not eligible for return unless they arrived defective.
+
+How to Initiate a Return
+To start a return, visit our Returns Portal at www.acmestore.com/returns and enter your order number and email address. You will receive a prepaid return shipping label by email within 24 hours. Pack the item securely and drop it off at any authorised courier location.
+
+Refund Processing
+Once we receive and inspect the returned item, we will process your refund within 5–7 business days. Refunds are issued to the original payment method. Credit card refunds may take an additional 3–5 business days to appear on your statement depending on your bank. Store credit refunds are applied immediately.
+
+Exchanges
+If you received a defective or incorrect item, we will exchange it at no additional cost. Contact our support team with your order number and a photo of the issue and we will arrange a replacement shipment.
+
+Non-Returnable Items
+The following items cannot be returned: digital downloads, gift cards, personalised or custom-made products, perishable goods, and items marked as final sale at the time of purchase.
+
+
+SECTION 2: SHIPPING AND DELIVERY
+----------------------------------
+
+Standard Shipping
+Standard shipping takes 5–7 business days and is free on all orders over $50. Orders under $50 incur a flat $4.99 shipping fee. Orders are processed within 1–2 business days after payment confirmation.
+
+Express Shipping
+Express shipping (2–3 business days) is available for $12.99. Same-day delivery is available in select cities for $19.99 on orders placed before 12:00 PM local time.
+
+International Shipping
+We ship to over 50 countries. International orders typically arrive within 10–21 business days. Import duties, taxes, and customs fees are the responsibility of the recipient and vary by country.
+
+Order Tracking
+You will receive a shipping confirmation email with a tracking number once your order has been dispatched. Track your order at www.acmestore.com/track or directly on the carrier's website. Tracking information may take up to 12 hours to update after dispatch.
+
+Lost or Delayed Packages
+If your package has not arrived within 3 business days of the estimated delivery date, please contact our support team. We will open an investigation with the carrier. If the package is confirmed lost, we will reship or refund your order at no charge.
+
+
+SECTION 3: PAYMENT METHODS
+----------------------------
+
+Accepted Payment Methods
+We accept the following payment methods:
+- Visa, Mastercard, American Express, and Discover credit and debit cards
+- PayPal and PayPal Credit
+- Apple Pay and Google Pay
+- ACME Store Gift Cards
+- Bank transfer (for orders over $500)
+
+Payment Security
+All transactions are encrypted using TLS 1.3. We do not store your full card number on our servers. Payments are processed through Stripe, a PCI DSS Level 1 compliant payment processor.
+
+Billing Issues
+If your payment is declined, check that your billing address matches the one on file with your bank and that your card has not expired. If the problem persists, contact your bank or try a different payment method. For any unauthorised charges, contact us immediately and we will investigate.
+
+Instalment Plans
+Orders over $100 are eligible for buy-now-pay-later through Klarna or Afterpay. Select your preferred option at checkout and you will be redirected to complete the application. Approval is subject to the provider's terms.
+
+Invoices
+A receipt is emailed automatically after every purchase. To request a VAT invoice or a detailed billing statement, email billing@acmestore.com with your order number.
+
+
+SECTION 4: ACCOUNT AND LOGIN
+------------------------------
+
+Creating an Account
+You can create a free account at www.acmestore.com/register. An account allows you to track orders, save your address and payment details, and access your order history. Guest checkout is also available if you prefer not to register.
+
+Forgotten Password
+Click "Forgot Password" on the login page and enter your registered email address. You will receive a password reset link within a few minutes. The link expires after 30 minutes. Check your spam folder if it does not arrive. If you still cannot access your account, contact support.
+
+Changing Account Details
+Log in and go to My Account > Profile Settings to update your name, email address, phone number, or password. Changes to your email address will require verification via a confirmation link sent to the new address.
+
+Deleting Your Account
+To permanently delete your account and all associated data, email privacy@acmestore.com with the subject line "Account Deletion Request". We will process the request within 30 days in compliance with GDPR and CCPA regulations. Pending orders must be completed or cancelled before deletion.
+
+
+SECTION 5: PRODUCTS AND WARRANTY
+----------------------------------
+
+Product Information
+Detailed specifications, dimensions, materials, and care instructions are listed on each product page. If you need additional information not shown on the page, use the "Ask a Question" feature on the product page or contact our support team.
+
+Warranty Coverage
+Most products come with a 12-month manufacturer's warranty covering defects in materials and workmanship. Some product categories carry extended warranties of 24 or 36 months — check the product page for details. Warranty does not cover damage caused by misuse, accidents, or unauthorised modifications.
+
+Filing a Warranty Claim
+Email warranty@acmestore.com with your order number, a description of the defect, and clear photographs. We will respond within 2 business days with instructions for repair, replacement, or refund depending on the situation.
+
+Product Recalls
+We follow all mandatory recall notices issued by relevant safety authorities. If a product you purchased is subject to a recall, we will contact you directly by email and provide instructions for a free return and full refund.
+
+
+SECTION 6: CONTACT AND SUPPORT
+--------------------------------
+
+Customer Support Hours
+Our support team is available Monday to Friday, 9:00 AM – 6:00 PM EST, and Saturday 10:00 AM – 4:00 PM EST. We are closed on public holidays.
+
+Contact Channels
+- Live Chat: Available on our website during support hours. Average response time is under 2 minutes.
+- Email: support@acmestore.com. We aim to respond within 24 hours on business days.
+- Phone: 1-800-555-0199. International callers: +1-212-555-0199.
+- Help Centre: help.acmestore.com — searchable FAQ and troubleshooting guides available 24/7.
+
+Escalations and Complaints
+If you are not satisfied with the resolution provided by our support team, you can request escalation to a senior specialist by replying to your support ticket and including the word "ESCALATE" in the subject line. We aim to resolve all escalated cases within 48 hours.
+
+Accessibility Support
+We are committed to making our service accessible to all customers. If you require assistance due to a disability, call our dedicated accessibility line at 1-800-555-0200 (TTY available) or email accessibility@acmestore.com.
+
+
+SECTION 7: PROMOTIONS AND LOYALTY PROGRAMME
+---------------------------------------------
+
+Discount Codes
+Promotional codes can be entered at checkout in the "Promo Code" field. Codes are case-insensitive and can only be used once per customer unless stated otherwise. Codes cannot be combined with other offers or applied to previous orders.
+
+ACME Rewards Programme
+Earn 1 point for every $1 spent. Points can be redeemed at a rate of 100 points = $1 off your next order. Sign up at www.acmestore.com/rewards. Points expire after 12 months of account inactivity.
+
+Price Match Guarantee
+If you find the same item cheaper at an authorised retailer within 14 days of your purchase, we will match the price and refund the difference. Submit your price match request at www.acmestore.com/pricematch with a link to the competing offer.
+
+Newsletter Subscribers
+Subscribe to our newsletter to receive a 10% discount on your first order, early access to sales, and exclusive member-only offers. Unsubscribe at any time by clicking the link at the bottom of any email.
+
+
+SECTION 8: PRIVACY AND LEGAL
+------------------------------
+
+Privacy Policy
+We collect only the data necessary to process your orders and improve our service. We do not sell your personal data to third parties. Full details are available at www.acmestore.com/privacy.
+
+Cookie Policy
+We use cookies to personalise your experience and analyse site traffic. You can manage your cookie preferences at any time via the cookie settings banner or in your account settings.
+
+Terms of Service
+By using our website and services you agree to our Terms of Service available at www.acmestore.com/terms. These terms govern the use of our platform, your account, and all purchases.
+
+Dispute Resolution
+In the event of a dispute, we encourage customers to contact our support team first. Unresolved disputes may be referred to binding arbitration in accordance with the rules of the American Arbitration Association. Class action suits are waived as per our Terms of Service.
