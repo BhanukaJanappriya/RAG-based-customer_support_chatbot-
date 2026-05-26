@@ -24,57 +24,113 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------------------------
-# Custom CSS
+# WhatsApp-style CSS
 # ---------------------------------------------------------------------------
 st.markdown(
     """
     <style>
-    /* ── User messages: right side ─────────────────────────────────────── */
-    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
-        flex-direction: row-reverse;
+
+    /* ── App background ─────────────────────────────────────────────────── */
+    .stApp {
+        background-color: #efeae2;
     }
 
-    /* Push user bubble text to the right */
+    /* ── Chat message base reset ─────────────────────────────────────────── */
+    [data-testid="stChatMessage"] {
+        background: transparent !important;
+        border: none !important;
+        padding: 2px 16px !important;
+        gap: 8px !important;
+        align-items: flex-end !important;
+    }
+
+    /* ── Avatars — small circles ─────────────────────────────────────────── */
+    [data-testid="chatAvatarIcon-user"],
+    [data-testid="chatAvatarIcon-assistant"] {
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+        border-radius: 50% !important;
+        overflow: hidden !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* ── USER messages — LEFT side (white bubble) ────────────────────────── */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
     [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"])
         > div:last-child {
+        background: #ffffff;
+        border-radius: 0px 16px 16px 16px;
+        padding: 8px 12px 8px 12px;
+        max-width: 62%;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.13);
+        align-items: flex-start;
+    }
+
+    /* Remove extra margins inside user bubble */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"])
+        > div:last-child p {
+        margin: 0 !important;
+        line-height: 1.45;
+    }
+
+    /* ── ASSISTANT messages — RIGHT side (green bubble) ──────────────────── */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+    }
+
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"])
+        > div:last-child {
+        background: #dcf8c6;
+        border-radius: 16px 0px 16px 16px;
+        padding: 8px 12px 8px 12px;
+        max-width: 62%;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.13);
         align-items: flex-end;
     }
 
-    /* User bubble */
-    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"])
-        [data-testid="stMarkdownContainer"] p {
-        background: #1a73e8;
-        color: #ffffff;
-        border-radius: 18px 4px 18px 18px;
-        padding: 10px 16px;
-        display: inline-block;
-        max-width: 100%;
-        margin: 0;
-        line-height: 1.5;
-    }
-
-    /* ── Assistant bubble ───────────────────────────────────────────────── */
+    /* Remove extra margins inside assistant bubble */
     [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"])
-        > div:last-child {
-        align-items: flex-start;
-        max-width: 80%;
+        > div:last-child p {
+        margin: 0 !important;
+        line-height: 1.45;
     }
 
-    /* ── Typing cursor blink ────────────────────────────────────────────── */
+    /* ── Remove stray Streamlit default backgrounds ──────────────────────── */
+    [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] {
+        background: transparent !important;
+    }
+
+    /* ── Typing cursor blink ─────────────────────────────────────────────── */
     @keyframes blink {
         0%, 100% { opacity: 1; }
         50%       { opacity: 0; }
     }
     .cursor {
         display: inline-block;
-        width: 9px;
-        height: 1.1em;
-        background: #444;
+        width: 8px;
+        height: 1em;
+        background: #333;
         vertical-align: text-bottom;
         margin-left: 2px;
         border-radius: 1px;
         animation: blink 0.85s step-start infinite;
     }
+
+    /* ── Chat input bar ──────────────────────────────────────────────────── */
+    [data-testid="stChatInput"] {
+        background: #f0f0f0;
+        border-radius: 24px !important;
+    }
+
+    /* ── Title area ──────────────────────────────────────────────────────── */
+    h1 { margin-bottom: 4px !important; }
+
     </style>
     """,
     unsafe_allow_html=True,
@@ -105,11 +161,7 @@ def fetch_health() -> dict:
 
 
 def render_response(prompt: str, session_id: str) -> tuple[str, List[dict]]:
-    """Connect to the SSE stream, show thinking steps and stream the reply.
-
-    Uses st.status() so the user can watch every thinking step live and
-    re-open the panel after the response is done. The reply text is
-    rendered character-by-character with a blinking cursor.
+    """Stream a response from the API with live thinking steps and cursor effect.
 
     Returns:
         (full response text, list of source dicts)
@@ -121,7 +173,7 @@ def render_response(prompt: str, session_id: str) -> tuple[str, List[dict]]:
 
     # Thinking panel — user can expand / collapse at any time
     status = st.status("Thinking…", expanded=True)
-    # Streaming text slot — lives below the status widget
+    # Streaming text appears below the thinking panel inside the bubble
     text_slot = st.empty()
 
     try:
@@ -144,9 +196,8 @@ def render_response(prompt: str, session_id: str) -> tuple[str, List[dict]]:
 
                 elif event["type"] == "token":
                     if first_token:
-                        # Transition the status panel to "generating" state
                         status.update(
-                            label="Generating response…",
+                            label="Generating…",
                             state="running",
                             expanded=True,
                         )
@@ -155,7 +206,6 @@ def render_response(prompt: str, session_id: str) -> tuple[str, List[dict]]:
                         first_token = False
 
                     full_text += event["content"]
-                    # Show text with a blinking cursor while streaming
                     text_slot.markdown(
                         full_text + '<span class="cursor"></span>',
                         unsafe_allow_html=True,
@@ -165,10 +215,9 @@ def render_response(prompt: str, session_id: str) -> tuple[str, List[dict]]:
                     sources = event["content"]
 
                 elif event["type"] == "done":
-                    # Final render — remove cursor, collapse status
                     text_slot.markdown(full_text)
                     status.update(
-                        label="Response complete",
+                        label="Done",
                         state="complete",
                         expanded=False,
                     )
@@ -182,18 +231,15 @@ def render_response(prompt: str, session_id: str) -> tuple[str, List[dict]]:
     except requests.exceptions.ConnectionError:
         status.update(label="Connection failed", state="error", expanded=True)
         with status:
-            st.error(
-                "Cannot reach the API server. "
-                "Run `uvicorn app.api.main:app --reload` and refresh."
-            )
-        full_text = "⚠️ API server is unreachable."
+            st.error("Cannot reach the API server. Run `uvicorn app.api.main:app --reload`.")
+        full_text = "API server is unreachable."
 
     except Exception as exc:
         if "RuntimeError" not in type(exc).__name__:
             status.update(label="Error", state="error", expanded=True)
             with status:
                 st.error(str(exc))
-        full_text = full_text or f"⚠️ {exc}"
+        full_text = full_text or f"Error: {exc}"
 
     st.session_state.last_sources = sources
     return full_text, sources
@@ -264,18 +310,17 @@ for msg in st.session_state.messages:
                     st.code(src["content"], language=None)
 
 # Chat input
-if prompt := st.chat_input("Type your question here…"):
-    # User message — rendered on the RIGHT via CSS
+if prompt := st.chat_input("Type a message…"):
+    # User message — LEFT side
     st.session_state.messages.append({"role": "user", "content": prompt, "sources": []})
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Assistant message — rendered on the LEFT
+    # Assistant message — RIGHT side
     with st.chat_message("assistant"):
         response_text, retrieved_sources = render_response(
             prompt, st.session_state.session_id
         )
-
         if retrieved_sources:
             with st.expander(f"📄 Sources ({len(retrieved_sources)} chunk(s))"):
                 for src in retrieved_sources:
