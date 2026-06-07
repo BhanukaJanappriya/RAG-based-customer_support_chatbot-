@@ -1,6 +1,14 @@
 # RAG-Based Customer Support Chatbot
 
-A fully local Retrieval-Augmented Generation (RAG) chatbot for customer support, built as a collaborative undergraduate project. Zero API costs, zero cloud dependencies — everything runs on your laptop.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B.svg?logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![LangChain](https://img.shields.io/badge/Orchestration-LangChain-1C3C3C.svg)](https://www.langchain.com/)
+[![Ollama](https://img.shields.io/badge/LLM-Ollama%20%7C%20Llama%203.2-000000.svg?logo=ollama&logoColor=white)](https://ollama.com/)
+[![ChromaDB](https://img.shields.io/badge/Vector%20Store-ChromaDB-FFA000.svg)](https://www.trychroma.com/)
+
+A fully local Retrieval-Augmented Generation (RAG) chatbot for customer support, built as a collaborative undergraduate project. Zero API costs, zero cloud dependencies — everything runs on your laptop, with streamed answers, cited sources, and a text-to-speech voice that reads replies aloud in a male or female voice.
 
 ---
 
@@ -37,6 +45,7 @@ User query ──► embedder.py ──► vector search ──► top-k chunks 
 - **Generation** — Filtered chunks are formatted into a cited context block (`[Source: file.pdf, p.N]`) and injected into a structured system prompt alongside the last 10 conversation turns. Llama 3.2 1B Instruct (via Ollama) is explicitly instructed to refuse if context is insufficient.
 - **Streaming API** — FastAPI `POST /chat` runs the LCEL chain with `astream()` and emits Server-Sent Events: `{"type":"token","content":"…"}` per partial token, then `{"type":"sources",…}` and `{"type":"done"}`.
 - **Streamlit UI** — `st.write_stream` consumes the SSE generator in real time. After each response, a collapsible expander shows the cited chunks; the sidebar shows raw retrieved context for transparency.
+- **Voice** — a 🔊 button next to each assistant reply reads it aloud via the browser's Web Speech API, with a Female/Male voice picker in the sidebar. Runs entirely client-side — no extra Python dependencies or server load.
 - **Session memory** — `HumanMessage`/`AIMessage` objects are stored in a per-session in-memory dict, capped at 10 turns, and passed into the prompt's `MessagesPlaceholder` to support multi-turn conversation.
 
 ---
@@ -63,7 +72,7 @@ User query ──► embedder.py ──► vector search ──► top-k chunks 
 │       ├── routes.py        # GET /health, POST /chat, DELETE /chat/{id}
 │       └── main.py          # FastAPI app factory + CORS
 ├── ui/
-│   └── streamlit_app.py     # Chat UI with source expander + debug sidebar
+│   └── streamlit_app.py     # Chat UI: streaming, sources, voice playback, debug sidebar
 ├── data/
 │   ├── raw/                 # Drop your PDFs and Markdown files here
 │   └── chroma_db/           # Auto-created by ChromaDB on first ingest
