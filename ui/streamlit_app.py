@@ -10,6 +10,7 @@ from typing import List
 
 import requests
 import streamlit as st
+import streamlit.components.v1 as components
 
 from app.config import settings
 
@@ -145,6 +146,8 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "last_sources" not in st.session_state:
     st.session_state.last_sources = []
+if "voice_gender" not in st.session_state:
+    st.session_state.voice_gender = "Female"
 
 
 # ---------------------------------------------------------------------------
@@ -158,6 +161,59 @@ def fetch_health() -> dict:
         return r.json()
     except Exception:
         return {}
+
+
+def render_speak_button(text: str, gender: str, key: str) -> None:
+    """Render a small 🔊 button that reads `text` aloud via the browser's Web Speech API.
+
+    Runs entirely client-side (no server-side TTS), so voice availability and
+    quality depend on the user's browser/OS. Voice "gender" is matched with a
+    name-based heuristic since the Web Speech API exposes no gender field.
+    """
+    # Encode as a JS string literal; guard against breaking out of the <script> tag.
+    payload = json.dumps(text).replace("</", "<\\/")
+    gender_js = json.dumps(gender)
+    component_html = f"""
+    <button id="speak-{key}" title="Listen to this message" style="
+        background: transparent; border: none; cursor: pointer;
+        font-size: 16px; padding: 2px 6px; line-height: 1;">🔊</button>
+    <script>
+    (function() {{
+        const btn = document.getElementById("speak-{key}");
+        const text = {payload};
+        const gender = {gender_js}.toLowerCase();
+
+        function pickVoice(voices) {{
+            const hints = gender === "male"
+                ? ["male", "david", "mark", "guy", "daniel", "alex"]
+                : ["female", "zira", "susan", "samantha", "victoria", "karen", "linda"];
+            for (const hint of hints) {{
+                const match = voices.find(v => v.name.toLowerCase().includes(hint));
+                if (match) return match;
+            }}
+            return voices.find(v => v.lang.startsWith("en")) || voices[0] || null;
+        }}
+
+        function getVoices() {{
+            return new Promise(resolve => {{
+                let voices = window.speechSynthesis.getVoices();
+                if (voices.length) {{ resolve(voices); return; }}
+                window.speechSynthesis.onvoiceschanged = () => resolve(window.speechSynthesis.getVoices());
+            }});
+        }}
+
+        btn.addEventListener("click", async () => {{
+            window.speechSynthesis.cancel();
+            const voices = await getVoices();
+            const utter = new SpeechSynthesisUtterance(text);
+            const voice = pickVoice(voices);
+            if (voice) utter.voice = voice;
+            window.speechSynthesis.speak(utter);
+        }});
+    }})();
+    </script>
+    """
+    components.html(component_html, height=30)
 
 
 def render_response(prompt: str, session_id: str) -> tuple[str, List[dict]]:
@@ -281,6 +337,18 @@ with st.sidebar:
 
     st.divider()
 
+    st.subheader("🔊 Voice")
+    st.session_state.voice_gender = st.radio(
+        "Assistant voice",
+        options=["Female", "Male"],
+        index=["Female", "Male"].index(st.session_state.voice_gender),
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+    st.caption("Click 🔊 next to a reply to hear it read aloud.")
+
+    st.divider()
+
     st.subheader("Retrieved Context")
     if st.session_state.last_sources:
         for i, chunk in enumerate(st.session_state.last_sources, start=1):
@@ -300,9 +368,11 @@ st.caption(
 )
 
 # Render conversation history
-for msg in st.session_state.messages:
+for i, msg in enumerate(st.session_state.messages):
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
+        if msg["role"] == "assistant":
+            render_speak_button(msg["content"], st.session_state.voice_gender, key=f"hist-{i}")
         if msg["role"] == "assistant" and msg.get("sources"):
             with st.expander(f"📄 Sources ({len(msg['sources'])} chunk(s))"):
                 for src in msg["sources"]:
@@ -320,6 +390,11 @@ if prompt := st.chat_input("Type a message…"):
     with st.chat_message("assistant"):
         response_text, retrieved_sources = render_response(
             prompt, st.session_state.session_id
+        )
+        render_speak_button(
+            response_text,
+            st.session_state.voice_gender,
+            key=f"live-{len(st.session_state.messages)}",
         )
         if retrieved_sources:
             with st.expander(f"📄 Sources ({len(retrieved_sources)} chunk(s))"):
