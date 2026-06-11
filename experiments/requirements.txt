@@ -1,0 +1,33 @@
+# Experiment-only dependencies (production requirements.txt covers the rest)
+# Install after the main requirements: pip install -r experiments/requirements.txt
+
+# Sparse retrieval
+rank-bm25>=0.2.2
+
+# Experiment tracking
+mlflow>=2.15.0
+
+# Statistical analysis
+scipy>=1.13.0
+
+# Plotting
+matplotlib>=3.9.0
+seaborn>=0.13.0
+
+# RAGAS (LLM-as-judge evaluation)
+# Uses RAGAS 0.2.x API (SingleTurnSample, EvaluationDataset)
+ragas>=0.2.0
+
+# Semantic chunking (optional — only needed for semantic chunking strategy)
+langchain-experimental>=0.3.0
+
+# Config parsing
+pyyaml>=6.0
+
+# Already in production requirements.txt (listed here for clarity):
+# sentence-transformers>=3.0.0  (cross-encoder reranking)
+# langchain-huggingface>=0.1.0
+# langchain-chroma>=0.1.4
+# langchain-ollama>=0.2.0
+# langchain-community>=0.3.0
+# langchain-text-splitters>=0.3.0

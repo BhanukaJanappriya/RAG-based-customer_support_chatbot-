@@ -1,0 +1,38 @@
+# Base configuration shared across all experiments.
+# Override individual keys in workstream-specific configs.
+
+experiment:
+  seed: 42
+  project_root: ".."          # relative to experiments/
+  data_dir: "../data/raw"
+  gold_qa_path: "data/gold_qa.json"
+  results_dir: "results"
+  plots_dir: "plots"
+  mlflow_tracking_uri: "file:./mlruns"
+
+# Production baseline — the number every experiment must beat
+baseline:
+  embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+  embedding_device: "cpu"
+  chunk_size: 512
+  chunk_overlap: 64
+  retrieval_top_k: 4
+  similarity_threshold: 0.3
+  llm_model: "llama3.2:latest"
+  ollama_base_url: "http://localhost:11434"
+  llm_temperature: 0.1
+  llm_max_tokens: 512
+
+# Evaluation settings
+evaluation:
+  bootstrap_n: 1000
+  bootstrap_alpha: 0.05          # 95% CI
+  k_values: [1, 3, 5, 10]        # k for P@k, R@k, nDCG@k, MRR@k
+  primary_metric: "ndcg_at_5"    # used for ranking configs
+  significance_alpha: 0.05       # Wilcoxon p-value threshold
+
+# ChromaDB scratch space for experiments (isolated from production)
+chroma:
+  experiment_persist_dir: "./chroma_experiments"
+  production_persist_dir: "../data/chroma_db"
+  production_collection: "customer_support_docs"

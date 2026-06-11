@@ -1,0 +1,104 @@
+# Retrieval strategy ablation configuration.
+# Run after embedding sweep; uses winning embedding model.
+
+experiment_name: "retrieval_ablation"
+
+# Set to the winner from embedding_comparison experiment
+embedding_model: "sentence-transformers/all-MiniLM-L6-v2"  # update after sweep
+
+# ── Chunking strategies ──────────────────────────────────────────────────────
+chunking_strategies:
+  - name: "fixed_256_0"
+    strategy: "fixed"
+    chunk_size: 256
+    chunk_overlap: 0
+
+  - name: "fixed_256_25pct"
+    strategy: "fixed"
+    chunk_size: 256
+    chunk_overlap: 64    # ~25%
+
+  - name: "fixed_512_0"
+    strategy: "fixed"
+    chunk_size: 512
+    chunk_overlap: 0
+
+  - name: "fixed_512_10pct"
+    strategy: "fixed"
+    chunk_size: 512
+    chunk_overlap: 51    # ~10%
+
+  - name: "fixed_512_25pct"    # production baseline
+    strategy: "fixed"
+    chunk_size: 512
+    chunk_overlap: 128   # 25%
+    is_baseline: true
+
+  - name: "fixed_1024_0"
+    strategy: "fixed"
+    chunk_size: 1024
+    chunk_overlap: 0
+
+  - name: "fixed_1024_10pct"
+    strategy: "fixed"
+    chunk_size: 1024
+    chunk_overlap: 102   # ~10%
+
+  - name: "recursive_512_64"   # current production config
+    strategy: "recursive"
+    chunk_size: 512
+    chunk_overlap: 64
+
+  - name: "semantic_512"
+    strategy: "semantic"
+    breakpoint_threshold_type: "percentile"
+    breakpoint_threshold_amount: 95
+
+  - name: "sentence_window_3"
+    strategy: "sentence_window"
+    window_size: 3       # sentences around the matched sentence
+
+# ── Retrieval methods ─────────────────────────────────────────────────────────
+retrieval_methods:
+  - name: "dense_only"        # production baseline
+    method: "dense"
+    top_k: 4
+    is_baseline: true
+
+  - name: "bm25_only"
+    method: "bm25"
+    top_k: 4
+
+  - name: "hybrid_rrf"
+    method: "hybrid_rrf"
+    dense_top_k: 10
+    bm25_top_k: 10
+    rrf_k: 60            # RRF constant; chosen per Cormack et al. 2009 default
+    final_top_k: 4
+
+  - name: "hybrid_rrf_reranked"
+    method: "hybrid_rrf_reranked"
+    dense_top_k: 10
+    bm25_top_k: 10
+    rrf_k: 60
+    reranker_model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    final_top_k: 4
+
+  - name: "hyde"
+    method: "hyde"
+    top_k: 4
+    llm_model: "llama3.2:latest"
+    temperature: 0.3
+
+  - name: "multi_query_3"
+    method: "multi_query"
+    n_rephrasings: 3
+    top_k_per_query: 4
+    final_top_k: 4
+    llm_model: "llama3.2:latest"
+    temperature: 0.3
+
+# Shared retrieval eval settings
+eval:
+  similarity_threshold: 0.0   # disabled during ablation to get ranked metrics
+  top_k: 10                   # retrieve more candidates for nDCG@10
