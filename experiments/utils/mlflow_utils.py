@@ -18,9 +18,14 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
+
+# MLflow >=3 deprecates the local filesystem tracking backend by default;
+# this project intentionally uses "file:./mlruns" with no server process.
+os.environ.setdefault("MLFLOW_ALLOW_FILE_STORE", "true")
 
 import mlflow
 
