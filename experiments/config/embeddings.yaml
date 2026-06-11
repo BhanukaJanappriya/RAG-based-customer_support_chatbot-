@@ -1,0 +1,64 @@
+# Embedding model sweep configuration.
+# Each model is evaluated on retrieval metrics + latency + memory.
+
+experiment_name: "embedding_comparison"
+
+models:
+  - name: "all-MiniLM-L6-v2"
+    model_id: "sentence-transformers/all-MiniLM-L6-v2"
+    dim: 384
+    is_baseline: true
+    notes: "Production baseline; fast, lightweight, English-optimised"
+
+  - name: "all-mpnet-base-v2"
+    model_id: "sentence-transformers/all-mpnet-base-v2"
+    dim: 768
+    is_baseline: false
+    notes: "Stronger semantic understanding; 2x larger than baseline"
+
+  - name: "bge-small-en-v1.5"
+    model_id: "BAAI/bge-small-en-v1.5"
+    dim: 384
+    is_baseline: false
+    notes: "MTEB SOTA small model; BGE uses a query prefix instruction"
+
+  - name: "bge-base-en-v1.5"
+    model_id: "BAAI/bge-base-en-v1.5"
+    dim: 768
+    is_baseline: false
+    notes: "BGE base; stronger than bge-small, competitive with mpnet"
+
+  - name: "e5-small-v2"
+    model_id: "intfloat/e5-small-v2"
+    dim: 384
+    is_baseline: false
+    notes: "E5 family; use 'query: ' / 'passage: ' prefixes"
+
+# BGE and E5 models need query prefixes — handled in the experiment script
+query_prefixes:
+  "BAAI/bge-small-en-v1.5": "Represent this sentence for searching relevant passages: "
+  "BAAI/bge-base-en-v1.5": "Represent this sentence for searching relevant passages: "
+  "intfloat/e5-small-v2": "query: "
+
+passage_prefixes:
+  "BAAI/bge-small-en-v1.5": ""
+  "BAAI/bge-base-en-v1.5": ""
+  "intfloat/e5-small-v2": "passage: "
+
+# Chunking fixed during embedding sweep (production baseline)
+chunking:
+  strategy: "recursive"
+  chunk_size: 512
+  chunk_overlap: 64
+
+# Retrieval fixed to dense-only during embedding sweep
+retrieval:
+  method: "dense"
+  top_k: 4
+  similarity_threshold: 0.0    # no threshold during eval — measure raw ranked quality
+
+# Pareto plot axes
+pareto:
+  x_axis: "mean_query_latency_ms"
+  y_axis: "ndcg_at_5"
+  annotate_with: "name"

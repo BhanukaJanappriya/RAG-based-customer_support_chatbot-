@@ -33,7 +33,8 @@ st.markdown(
 
     /* ── App background ─────────────────────────────────────────────────── */
     .stApp {
-        background-color: #000000;
+        background-color: #ffffff;
+        color: #000000;
     }
 
     /* ── Chat message base reset ─────────────────────────────────────────── */

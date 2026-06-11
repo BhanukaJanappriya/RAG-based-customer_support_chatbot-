@@ -1,0 +1,419 @@
+{
+  "version": "1.0",
+  "description": "Hand-curated gold Q&A pairs for the ACME Store customer support knowledge base. Categories: standard (answerable from KB), out_of_scope (no KB answer), ambiguous (multiple valid interpretations), multi_hop (requires combining 2+ sections).",
+  "stats": {
+    "total": 50,
+    "standard": 30,
+    "out_of_scope": 8,
+    "ambiguous": 6,
+    "multi_hop": 6
+  },
+  "qa_pairs": [
+    {
+      "id": "q001",
+      "question": "What is the return window for purchases?",
+      "ground_truth": "ACME accepts returns within 30 days of the original purchase date.",
+      "category": "standard",
+      "relevant_sections": ["returns_and_refunds"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q002",
+      "question": "How do I start a return?",
+      "ground_truth": "Visit the Returns Portal at www.acmestore.com/returns, enter your order number and email address. You will receive a prepaid return shipping label by email within 24 hours.",
+      "category": "standard",
+      "relevant_sections": ["returns_and_refunds"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q003",
+      "question": "How long does a refund take to process?",
+      "ground_truth": "Once the returned item is received and inspected, the refund is processed within 5-7 business days to the original payment method. Credit card refunds may take an additional 3-5 business days to appear on your statement.",
+      "category": "standard",
+      "relevant_sections": ["returns_and_refunds"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q004",
+      "question": "Can I return a gift card?",
+      "ground_truth": "No. Gift cards are listed as non-returnable items.",
+      "category": "standard",
+      "relevant_sections": ["returns_and_refunds"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q005",
+      "question": "What should I do if I received the wrong item?",
+      "ground_truth": "Contact the support team with your order number and a photo of the issue. ACME will arrange a replacement shipment at no additional cost.",
+      "category": "standard",
+      "relevant_sections": ["returns_and_refunds"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q006",
+      "question": "What are the standard shipping times and costs?",
+      "ground_truth": "Standard shipping takes 5-7 business days and is free on orders over $50. Orders under $50 incur a flat $4.99 shipping fee.",
+      "category": "standard",
+      "relevant_sections": ["shipping_and_delivery"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q007",
+      "question": "Is express shipping available and what does it cost?",
+      "ground_truth": "Yes. Express shipping (2-3 business days) costs $12.99. Same-day delivery is available in select cities for $19.99 on orders placed before 12:00 PM local time.",
+      "category": "standard",
+      "relevant_sections": ["shipping_and_delivery"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q008",
+      "question": "How do I track my order?",
+      "ground_truth": "You will receive a shipping confirmation email with a tracking number once your order is dispatched. Track at www.acmestore.com/track or directly on the carrier website. Tracking may take up to 12 hours to update after dispatch.",
+      "category": "standard",
+      "relevant_sections": ["shipping_and_delivery"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q009",
+      "question": "What happens if my package is lost?",
+      "ground_truth": "If the package has not arrived within 3 business days of the estimated delivery date, contact support. If confirmed lost after carrier investigation, ACME will reship or refund the order at no charge.",
+      "category": "standard",
+      "relevant_sections": ["shipping_and_delivery"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q010",
+      "question": "Does ACME ship internationally?",
+      "ground_truth": "Yes. ACME ships to over 50 countries. International orders typically arrive in 10-21 business days. Import duties and customs fees are the recipient's responsibility.",
+      "category": "standard",
+      "relevant_sections": ["shipping_and_delivery"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q011",
+      "question": "What payment methods are accepted?",
+      "ground_truth": "Accepted methods include Visa, Mastercard, American Express, Discover, PayPal, PayPal Credit, Apple Pay, Google Pay, ACME Store Gift Cards, and bank transfer for orders over $500.",
+      "category": "standard",
+      "relevant_sections": ["payment_methods"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q012",
+      "question": "Is my payment information secure?",
+      "ground_truth": "Yes. All transactions use TLS 1.3 encryption. ACME does not store full card numbers and uses Stripe, a PCI DSS Level 1 compliant payment processor.",
+      "category": "standard",
+      "relevant_sections": ["payment_methods"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q013",
+      "question": "Can I pay in instalments?",
+      "ground_truth": "Orders over $100 are eligible for buy-now-pay-later through Klarna or Afterpay, selectable at checkout. Approval is subject to the provider's terms.",
+      "category": "standard",
+      "relevant_sections": ["payment_methods"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q014",
+      "question": "My payment was declined. What should I do?",
+      "ground_truth": "Check that your billing address matches your bank records and that your card has not expired. If the problem persists, contact your bank or try a different payment method.",
+      "category": "standard",
+      "relevant_sections": ["payment_methods"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q015",
+      "question": "How do I get a VAT invoice?",
+      "ground_truth": "Email billing@acmestore.com with your order number to request a VAT invoice or detailed billing statement.",
+      "category": "standard",
+      "relevant_sections": ["payment_methods"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q016",
+      "question": "How do I reset my password?",
+      "ground_truth": "Click 'Forgot Password' on the login page, enter your email, and you will receive a reset link within a few minutes. The link expires after 30 minutes. Check spam if it does not arrive.",
+      "category": "standard",
+      "relevant_sections": ["account_and_login"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q017",
+      "question": "How do I delete my ACME account?",
+      "ground_truth": "Email privacy@acmestore.com with the subject 'Account Deletion Request'. The request will be processed within 30 days under GDPR/CCPA. Pending orders must be completed or cancelled first.",
+      "category": "standard",
+      "relevant_sections": ["account_and_login"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q018",
+      "question": "Can I update my email address on my account?",
+      "ground_truth": "Yes. Go to My Account > Profile Settings. Changes to your email require verification via a confirmation link sent to the new address.",
+      "category": "standard",
+      "relevant_sections": ["account_and_login"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q019",
+      "question": "Do I need an account to place an order?",
+      "ground_truth": "No. Guest checkout is available if you prefer not to register.",
+      "category": "standard",
+      "relevant_sections": ["account_and_login"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q020",
+      "question": "What warranty comes with products?",
+      "ground_truth": "Most products carry a 12-month manufacturer warranty covering defects in materials and workmanship. Some categories have 24 or 36-month extended warranties; check the product page for details.",
+      "category": "standard",
+      "relevant_sections": ["products_and_warranty"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q021",
+      "question": "How do I file a warranty claim?",
+      "ground_truth": "Email warranty@acmestore.com with your order number, a description of the defect, and clear photographs. ACME will respond within 2 business days with repair, replacement, or refund instructions.",
+      "category": "standard",
+      "relevant_sections": ["products_and_warranty"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q022",
+      "question": "What are ACME's customer support hours?",
+      "ground_truth": "Monday to Friday, 9 AM - 6 PM EST, and Saturday 10 AM - 4 PM EST. Closed on public holidays.",
+      "category": "standard",
+      "relevant_sections": ["contact_and_support"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q023",
+      "question": "What is the customer support phone number?",
+      "ground_truth": "1-800-555-0199. International callers: +1-212-555-0199.",
+      "category": "standard",
+      "relevant_sections": ["contact_and_support"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q024",
+      "question": "How do I escalate a complaint?",
+      "ground_truth": "Reply to your support ticket with the word 'ESCALATE' in the subject line. ACME aims to resolve escalated cases within 48 hours.",
+      "category": "standard",
+      "relevant_sections": ["contact_and_support"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q025",
+      "question": "How does the ACME Rewards programme work?",
+      "ground_truth": "Earn 1 point per $1 spent. Redeem at 100 points = $1 off. Points expire after 12 months of account inactivity.",
+      "category": "standard",
+      "relevant_sections": ["promotions_and_loyalty"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q026",
+      "question": "Can I use multiple promo codes on one order?",
+      "ground_truth": "No. Promotional codes cannot be combined with other offers. Each code can only be used once per customer unless stated otherwise.",
+      "category": "standard",
+      "relevant_sections": ["promotions_and_loyalty"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q027",
+      "question": "What is the price match guarantee?",
+      "ground_truth": "If you find the same item cheaper at an authorised retailer within 14 days of purchase, ACME will match the price and refund the difference. Submit a request at www.acmestore.com/pricematch.",
+      "category": "standard",
+      "relevant_sections": ["promotions_and_loyalty"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q028",
+      "question": "Does ACME sell my personal data?",
+      "ground_truth": "No. ACME collects only data necessary to process orders and improve service, and does not sell personal data to third parties.",
+      "category": "standard",
+      "relevant_sections": ["privacy_and_legal"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q029",
+      "question": "What accessibility support is available?",
+      "ground_truth": "Call 1-800-555-0200 (TTY available) or email accessibility@acmestore.com. ACME is committed to making its service accessible to all customers.",
+      "category": "standard",
+      "relevant_sections": ["contact_and_support"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q030",
+      "question": "Are custom-made products eligible for return?",
+      "ground_truth": "No. Personalised or custom-made products are listed as non-returnable items.",
+      "category": "standard",
+      "relevant_sections": ["returns_and_refunds"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q031",
+      "question": "If I order $60 worth of items and use express shipping, what is my total shipping cost?",
+      "ground_truth": "Express shipping costs $12.99 regardless of order value. Free standard shipping applies only to orders over $50 via the standard tier.",
+      "category": "multi_hop",
+      "relevant_sections": ["shipping_and_delivery"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q032",
+      "question": "I want to buy now and pay later, but also use a promo code. Is that possible?",
+      "ground_truth": "Buy-now-pay-later (Klarna or Afterpay) is available for orders over $100. However, promo codes cannot be combined with other offers, so check the specific terms of the promo code before applying both.",
+      "category": "multi_hop",
+      "relevant_sections": ["payment_methods", "promotions_and_loyalty"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "q033",
+      "question": "My product arrived defective. Can I get a replacement and how long does the warranty cover it?",
+      "ground_truth": "Yes. For defective items, contact support with your order number and a photo for a free exchange. The standard warranty covers 12 months; some products have 24 or 36-month warranties.",
+      "category": "multi_hop",
+      "relevant_sections": ["returns_and_refunds", "products_and_warranty"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q034",
+      "question": "If I delete my account, what happens to my reward points?",
+      "ground_truth": "The knowledge base does not explicitly state what happens to reward points upon account deletion, but points are tied to the account and would logically be lost. The account deletion process takes up to 30 days.",
+      "category": "multi_hop",
+      "relevant_sections": ["account_and_login", "promotions_and_loyalty"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "q035",
+      "question": "I placed an international order. Who pays the import duties, and can I return the item if I change my mind?",
+      "ground_truth": "Import duties and customs fees are the recipient's responsibility. The item can be returned within 30 days of purchase if unused and in original packaging.",
+      "category": "multi_hop",
+      "relevant_sections": ["shipping_and_delivery", "returns_and_refunds"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "q036",
+      "question": "How do I get early access to sales?",
+      "ground_truth": "Subscribe to the ACME newsletter to receive early access to sales and exclusive member-only offers, along with a 10% discount on your first order.",
+      "category": "multi_hop",
+      "relevant_sections": ["promotions_and_loyalty"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q037",
+      "question": "What is the best product for my back pain?",
+      "ground_truth": "I don't have enough information to answer that.",
+      "category": "out_of_scope",
+      "relevant_sections": [],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q038",
+      "question": "How do I cook pasta?",
+      "ground_truth": "I don't have enough information to answer that.",
+      "category": "out_of_scope",
+      "relevant_sections": [],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q039",
+      "question": "What is ACME's stock price today?",
+      "ground_truth": "I don't have enough information to answer that.",
+      "category": "out_of_scope",
+      "relevant_sections": [],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q040",
+      "question": "Are ACME products better than Amazon's products?",
+      "ground_truth": "I don't have enough information to answer that.",
+      "category": "out_of_scope",
+      "relevant_sections": [],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q041",
+      "question": "What is the weather like in New York today?",
+      "ground_truth": "I don't have enough information to answer that.",
+      "category": "out_of_scope",
+      "relevant_sections": [],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q042",
+      "question": "Can ACME provide legal advice about my contract dispute?",
+      "ground_truth": "I don't have enough information to answer that.",
+      "category": "out_of_scope",
+      "relevant_sections": [],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q043",
+      "question": "What is the meaning of life?",
+      "ground_truth": "I don't have enough information to answer that.",
+      "category": "out_of_scope",
+      "relevant_sections": [],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q044",
+      "question": "How do I contact you?",
+      "ground_truth": "Live Chat on the website, email at support@acmestore.com, phone at 1-800-555-0199, or the Help Centre at help.acmestore.com.",
+      "category": "ambiguous",
+      "relevant_sections": ["contact_and_support"],
+      "difficulty": "medium",
+      "ambiguity_note": "Could mean general contact, billing contact, or warranty contact"
+    },
+    {
+      "id": "q045",
+      "question": "Is the item covered?",
+      "ground_truth": "I don't have enough information to answer that.",
+      "category": "ambiguous",
+      "relevant_sections": [],
+      "difficulty": "hard",
+      "ambiguity_note": "No product or coverage type specified"
+    },
+    {
+      "id": "q046",
+      "question": "What is the return policy for sale items?",
+      "ground_truth": "Items marked as final sale at the time of purchase cannot be returned. Other sale items follow the standard 30-day return policy.",
+      "category": "ambiguous",
+      "relevant_sections": ["returns_and_refunds"],
+      "difficulty": "medium",
+      "ambiguity_note": "Ambiguous whether 'sale items' means promotional discount or final-sale clearance"
+    },
+    {
+      "id": "q047",
+      "question": "How long does shipping take?",
+      "ground_truth": "Standard shipping takes 5-7 business days. Express shipping takes 2-3 business days. International orders take 10-21 business days. Same-day delivery is available in select cities.",
+      "category": "ambiguous",
+      "relevant_sections": ["shipping_and_delivery"],
+      "difficulty": "medium",
+      "ambiguity_note": "No shipping tier or destination specified"
+    },
+    {
+      "id": "q048",
+      "question": "Can I get a refund?",
+      "ground_truth": "Refunds are available if you return the item within 30 days of purchase, unused and in original packaging. Refunds process in 5-7 business days to the original payment method.",
+      "category": "ambiguous",
+      "relevant_sections": ["returns_and_refunds"],
+      "difficulty": "medium",
+      "ambiguity_note": "No context about why a refund is being requested"
+    },
+    {
+      "id": "q049",
+      "question": "When will my order arrive?",
+      "ground_truth": "I don't have enough information to answer that.",
+      "category": "ambiguous",
+      "relevant_sections": ["shipping_and_delivery"],
+      "difficulty": "hard",
+      "ambiguity_note": "No order ID, shipping tier, or destination provided; cannot give a specific answer"
+    },
+    {
+      "id": "q050",
+      "question": "I see a charge on my card I don't recognise — what should I do, and is ACME liable?",
+      "ground_truth": "Contact ACME immediately for an investigation if the charge relates to an ACME purchase. ACME uses Stripe with TLS 1.3 and does not store full card numbers. The knowledge base does not specify liability terms for fraudulent charges; refer to the Terms of Service for dispute resolution.",
+      "category": "multi_hop",
+      "relevant_sections": ["payment_methods", "privacy_and_legal"],
+      "difficulty": "hard"
+    }
+  ]
+}
