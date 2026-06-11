@@ -12,6 +12,7 @@
 # Expected primary failure mode: all-MiniLM tends to struggle with questions
 # that use different vocabulary from the document (paraphrase gap); BGE models
 # use hard-negative mining which reduces this.
+"""
 
 import argparse
 import json

@@ -13,6 +13,7 @@
 # Expected Pareto winner: hybrid_rrf or hybrid_rrf_reranked depending on the
 # latency budget. Pure BM25 will likely beat dense-only for this corpus (factual
 # customer support text with specific numbers, URLs, policy terms).
+"""
 
 import argparse
 import json
