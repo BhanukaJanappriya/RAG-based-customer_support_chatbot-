@@ -4,7 +4,7 @@
 experiment_name: "retrieval_ablation"
 
 # Set to the winner from embedding_comparison experiment
-embedding_model: "sentence-transformers/all-MiniLM-L6-v2"  # update after sweep
+embedding_model: "sentence-transformers/all-mpnet-base-v2"  # winner of embedding_comparison (highest nDCG@5)
 
 # ── Chunking strategies ──────────────────────────────────────────────────────
 chunking_strategies:

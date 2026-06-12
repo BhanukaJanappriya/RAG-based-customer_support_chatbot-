@@ -1,0 +1,303 @@
+{
+  "config_name": "chunk_fixed_512_0",
+  "config_params": {
+    "name": "fixed_512_0",
+    "strategy": "fixed",
+    "chunk_size": 512,
+    "chunk_overlap": 0
+  },
+  "n_queries": 30,
+  "timestamp": "2026-06-12T07:13:57.061993",
+  "retrieval_metrics": {
+    "precision_at_1": {
+      "mean": 0.8,
+      "std": 0.4,
+      "ci": {
+        "point": 0.8,
+        "lower": 0.6333333333333333,
+        "upper": 0.9333333333333333,
+        "std_err": 0.07236211906983017
+      }
+    },
+    "recall_at_1": {
+      "mean": 0.3033489658489658,
+      "std": 0.31929169734545215,
+      "ci": {
+        "point": 0.3033489658489658,
+        "lower": 0.19586880711880708,
+        "upper": 0.41487704425204414,
+        "std_err": 0.05627061924476096
+      }
+    },
+    "ndcg_at_1": {
+      "mean": 0.8,
+      "std": 0.4,
+      "ci": {
+        "point": 0.8,
+        "lower": 0.6666666666666666,
+        "upper": 0.9333333333333333,
+        "std_err": 0.07271697786611525
+      }
+    },
+    "hit_rate_at_1": {
+      "mean": 0.8,
+      "std": 0.4,
+      "ci": {
+        "point": 0.8,
+        "lower": 0.6666666666666666,
+        "upper": 0.9333333333333333,
+        "std_err": 0.07411329542218532
+      }
+    },
+    "precision_at_3": {
+      "mean": 0.5555555555555555,
+      "std": 0.26293687924887177,
+      "ci": {
+        "point": 0.5555555555555555,
+        "lower": 0.4666666666666666,
+        "upper": 0.6555555555555554,
+        "std_err": 0.04900992590317358
+      }
+    },
+    "recall_at_3": {
+      "mean": 0.5013035113035113,
+      "std": 0.33337620465492424,
+      "ci": {
+        "point": 0.5013035113035113,
+        "lower": 0.392211038961039,
+        "upper": 0.6189577320827321,
+        "std_err": 0.05973924855093856
+      }
+    },
+    "ndcg_at_3": {
+      "mean": 0.7242098128510305,
+      "std": 0.2886203649488108,
+      "ci": {
+        "point": 0.7242098128510305,
+        "lower": 0.6214041259535609,
+        "upper": 0.8262578977828469,
+        "std_err": 0.05156648110735173
+      }
+    },
+    "hit_rate_at_3": {
+      "mean": 0.9333333333333333,
+      "std": 0.24944382578492943,
+      "ci": {
+        "point": 0.9333333333333333,
+        "lower": 0.8333333333333334,
+        "upper": 1.0,
+        "std_err": 0.045025123055363145
+      }
+    },
+    "precision_at_5": {
+      "mean": 0.4466666666666666,
+      "std": 0.21715329966536445,
+      "ci": {
+        "point": 0.4466666666666666,
+        "lower": 0.37333333333333324,
+        "upper": 0.52,
+        "std_err": 0.037935547609585216
+      }
+    },
+    "recall_at_5": {
+      "mean": 0.6566366041366042,
+      "std": 0.2991382397086602,
+      "ci": {
+        "point": 0.6566366041366042,
+        "lower": 0.546023538961039,
+        "upper": 0.772467231842232,
+        "std_err": 0.0563122606139226
+      }
+    },
+    "ndcg_at_5": {
+      "mean": 0.7284876274524895,
+      "std": 0.2328890466092344,
+      "ci": {
+        "point": 0.7284876274524895,
+        "lower": 0.637894070480258,
+        "upper": 0.807662742665847,
+        "std_err": 0.042585152392018086
+      }
+    },
+    "hit_rate_at_5": {
+      "mean": 1.0,
+      "std": 0.0,
+      "ci": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      }
+    },
+    "precision_at_10": {
+      "mean": 0.3099999999999999,
+      "std": 0.21031722072463147,
+      "ci": {
+        "point": 0.3099999999999999,
+        "lower": 0.2433333333333333,
+        "upper": 0.38666666666666666,
+        "std_err": 0.037593316215662025
+      }
+    },
+    "recall_at_10": {
+      "mean": 0.7599242424242424,
+      "std": 0.2186935643360104,
+      "ci": {
+        "point": 0.7599242424242424,
+        "lower": 0.6793431637806637,
+        "upper": 0.839724025974026,
+        "std_err": 0.04079881657930899
+      }
+    },
+    "ndcg_at_10": {
+      "mean": 0.724163922894413,
+      "std": 0.2201648379337887,
+      "ci": {
+        "point": 0.724163922894413,
+        "lower": 0.6417699335271114,
+        "upper": 0.8067549358853433,
+        "std_err": 0.04107426203189811
+      }
+    },
+    "hit_rate_at_10": {
+      "mean": 1.0,
+      "std": 0.0,
+      "ci": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      }
+    },
+    "mrr": {
+      "mean": 0.8688888888888887,
+      "std": 0.2679045343143203,
+      "ci": {
+        "point": 0.8688888888888887,
+        "lower": 0.7721944444444444,
+        "upper": 0.9555555555555555,
+        "std_err": 0.046959416433022275
+      }
+    },
+    "context_relevance": {
+      "mean": 0.43,
+      "std": 0.2396525262402492,
+      "ci": {
+        "point": 0.43,
+        "lower": 0.35,
+        "upper": 0.5134166666666665,
+        "std_err": 0.04339416484311365
+      }
+    }
+  },
+  "latency_stats": {
+    "mean_ms": 75.70659999813263,
+    "median_ms": 75.43429999350337,
+    "p95_ms": 83.89199499652022,
+    "max_ms": 88.89040000212844
+  },
+  "generation_metrics": {},
+  "comparison_vs_baseline": {},
+  "error_analysis": [
+    {
+      "id": "q027",
+      "question": "What is the price match guarantee?",
+      "category": "standard",
+      "ndcg_at_5": 0.19519002499605084,
+      "n_retrieved": 10,
+      "n_relevant_found": 1,
+      "n_relevant_total": 4,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q024",
+      "question": "How do I escalate a complaint?",
+      "category": "standard",
+      "ndcg_at_5": 0.21398626473452756,
+      "n_retrieved": 10,
+      "n_relevant_found": 1,
+      "n_relevant_total": 5,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q011",
+      "question": "What payment methods are accepted?",
+      "category": "standard",
+      "ndcg_at_5": 0.38685280723454163,
+      "n_retrieved": 10,
+      "n_relevant_found": 1,
+      "n_relevant_total": 1,
+      "failure_mode": "ranking_error"
+    },
+    {
+      "id": "q028",
+      "question": "Does ACME sell my personal data?",
+      "category": "standard",
+      "ndcg_at_5": 0.38685280723454163,
+      "n_retrieved": 10,
+      "n_relevant_found": 1,
+      "n_relevant_total": 1,
+      "failure_mode": "ranking_error"
+    },
+    {
+      "id": "q022",
+      "question": "What are ACME's customer support hours?",
+      "category": "standard",
+      "ndcg_at_5": 0.5,
+      "n_retrieved": 10,
+      "n_relevant_found": 1,
+      "n_relevant_total": 1,
+      "failure_mode": "ranking_error"
+    },
+    {
+      "id": "q001",
+      "question": "What is the return window for purchases?",
+      "category": "standard",
+      "ndcg_at_5": 0.5147714448836774,
+      "n_retrieved": 10,
+      "n_relevant_found": 3,
+      "n_relevant_total": 7,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q016",
+      "question": "How do I reset my password?",
+      "category": "standard",
+      "ndcg_at_5": 0.5531464700081437,
+      "n_retrieved": 10,
+      "n_relevant_found": 2,
+      "n_relevant_total": 7,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q014",
+      "question": "My payment was declined. What should I do?",
+      "category": "standard",
+      "ndcg_at_5": 0.5855700749881525,
+      "n_retrieved": 10,
+      "n_relevant_found": 2,
+      "n_relevant_total": 4,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q023",
+      "question": "What is the customer support phone number?",
+      "category": "standard",
+      "ndcg_at_5": 0.6131471927654584,
+      "n_retrieved": 10,
+      "n_relevant_found": 1,
+      "n_relevant_total": 2,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q009",
+      "question": "What happens if my package is lost?",
+      "category": "standard",
+      "ndcg_at_5": 0.6548086577531307,
+      "n_retrieved": 10,
+      "n_relevant_found": 3,
+      "n_relevant_total": 8,
+      "failure_mode": "partial_recall"
+    }
+  ]
+}

@@ -1,0 +1,304 @@
+{
+  "config_name": "ret_dense_only",
+  "config_params": {
+    "name": "dense_only",
+    "method": "dense",
+    "top_k": 4,
+    "is_baseline": true,
+    "chunking": "semantic_512"
+  },
+  "n_queries": 30,
+  "timestamp": "2026-06-12T07:18:04.924733",
+  "retrieval_metrics": {
+    "precision_at_1": {
+      "mean": 0.9,
+      "std": 0.29999999999999993,
+      "ci": {
+        "point": 0.9,
+        "lower": 0.7666666666666667,
+        "upper": 1.0,
+        "std_err": 0.05570067133355962
+      }
+    },
+    "recall_at_1": {
+      "mean": 0.3922222222222222,
+      "std": 0.2800044091363607,
+      "ci": {
+        "point": 0.3922222222222222,
+        "lower": 0.3005555555555555,
+        "upper": 0.5012083333333331,
+        "std_err": 0.050425838878955694
+      }
+    },
+    "ndcg_at_1": {
+      "mean": 0.9,
+      "std": 0.29999999999999993,
+      "ci": {
+        "point": 0.9,
+        "lower": 0.8,
+        "upper": 1.0,
+        "std_err": 0.05352052567838915
+      }
+    },
+    "hit_rate_at_1": {
+      "mean": 0.9,
+      "std": 0.29999999999999993,
+      "ci": {
+        "point": 0.9,
+        "lower": 0.7666666666666667,
+        "upper": 1.0,
+        "std_err": 0.056687948662158545
+      }
+    },
+    "precision_at_3": {
+      "mean": 0.5888888888888889,
+      "std": 0.2813108644704926,
+      "ci": {
+        "point": 0.5888888888888889,
+        "lower": 0.4888888888888889,
+        "upper": 0.688888888888889,
+        "std_err": 0.052142642351991945
+      }
+    },
+    "recall_at_3": {
+      "mean": 0.6661111111111111,
+      "std": 0.27810480749281785,
+      "ci": {
+        "point": 0.6661111111111111,
+        "lower": 0.5700000000000001,
+        "upper": 0.7605555555555554,
+        "std_err": 0.05011219324834099
+      }
+    },
+    "ndcg_at_3": {
+      "mean": 0.7838261700429889,
+      "std": 0.26325320714628914,
+      "ci": {
+        "point": 0.7838261700429889,
+        "lower": 0.6879543874803865,
+        "upper": 0.8742586607816404,
+        "std_err": 0.04832065079028077
+      }
+    },
+    "hit_rate_at_3": {
+      "mean": 0.9333333333333333,
+      "std": 0.24944382578492943,
+      "ci": {
+        "point": 0.9333333333333333,
+        "lower": 0.8333333333333334,
+        "upper": 1.0,
+        "std_err": 0.044710402942071015
+      }
+    },
+    "precision_at_5": {
+      "mean": 0.5066666666666667,
+      "std": 0.24073960113690382,
+      "ci": {
+        "point": 0.5066666666666667,
+        "lower": 0.41999999999999993,
+        "upper": 0.5866666666666667,
+        "std_err": 0.043123925631263445
+      }
+    },
+    "recall_at_5": {
+      "mean": 0.9272222222222222,
+      "std": 0.13034735171366327,
+      "ci": {
+        "point": 0.9272222222222222,
+        "lower": 0.8794305555555557,
+        "upper": 0.9700000000000001,
+        "std_err": 0.02393266592161014
+      }
+    },
+    "ndcg_at_5": {
+      "mean": 0.8595472736544438,
+      "std": 0.16560857226103048,
+      "ci": {
+        "point": 0.8595472736544438,
+        "lower": 0.7953582442455122,
+        "upper": 0.9116388475659026,
+        "std_err": 0.030255319985760212
+      }
+    },
+    "hit_rate_at_5": {
+      "mean": 1.0,
+      "std": 0.0,
+      "ci": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      }
+    },
+    "precision_at_10": {
+      "mean": 0.27999999999999997,
+      "std": 0.1375984496036686,
+      "ci": {
+        "point": 0.27999999999999997,
+        "lower": 0.23333333333333336,
+        "upper": 0.3266666666666667,
+        "std_err": 0.024266380068854322
+      }
+    },
+    "recall_at_10": {
+      "mean": 1.0,
+      "std": 0.0,
+      "ci": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      }
+    },
+    "ndcg_at_10": {
+      "mean": 0.8983862849349495,
+      "std": 0.15677293000041467,
+      "ci": {
+        "point": 0.8983862849349495,
+        "lower": 0.8376072855741147,
+        "upper": 0.9483378873762605,
+        "std_err": 0.028851852539465875
+      }
+    },
+    "hit_rate_at_10": {
+      "mean": 1.0,
+      "std": 0.0,
+      "ci": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      }
+    },
+    "mrr": {
+      "mean": 0.9277777777777778,
+      "std": 0.21702249982916233,
+      "ci": {
+        "point": 0.9277777777777778,
+        "lower": 0.85,
+        "upper": 1.0,
+        "std_err": 0.040136890156474696
+      }
+    },
+    "context_relevance": {
+      "mean": 0.5222222222222223,
+      "std": 0.28781852993308044,
+      "ci": {
+        "point": 0.5222222222222223,
+        "lower": 0.4222222222222223,
+        "upper": 0.6277777777777778,
+        "std_err": 0.052826853767265786
+      }
+    }
+  },
+  "latency_stats": {
+    "mean_ms": 86.3044433334532,
+    "median_ms": 82.0446500001708,
+    "p95_ms": 102.1487949990842,
+    "max_ms": 135.17170000704937
+  },
+  "generation_metrics": {},
+  "comparison_vs_baseline": {},
+  "error_analysis": [
+    {
+      "id": "q011",
+      "question": "What payment methods are accepted?",
+      "category": "standard",
+      "ndcg_at_5": 0.43067655807339306,
+      "n_retrieved": 6,
+      "n_relevant_found": 1,
+      "n_relevant_total": 1,
+      "failure_mode": "ranking_error"
+    },
+    {
+      "id": "q012",
+      "question": "Is my payment information secure?",
+      "category": "standard",
+      "ndcg_at_5": 0.43067655807339306,
+      "n_retrieved": 6,
+      "n_relevant_found": 1,
+      "n_relevant_total": 1,
+      "failure_mode": "ranking_error"
+    },
+    {
+      "id": "q022",
+      "question": "What are ACME's customer support hours?",
+      "category": "standard",
+      "ndcg_at_5": 0.5,
+      "n_retrieved": 6,
+      "n_relevant_found": 1,
+      "n_relevant_total": 1,
+      "failure_mode": "ranking_error"
+    },
+    {
+      "id": "q004",
+      "question": "Can I return a gift card?",
+      "category": "standard",
+      "ndcg_at_5": 0.6131471927654584,
+      "n_retrieved": 6,
+      "n_relevant_found": 1,
+      "n_relevant_total": 2,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q009",
+      "question": "What happens if my package is lost?",
+      "category": "standard",
+      "ndcg_at_5": 0.75369761125927,
+      "n_retrieved": 6,
+      "n_relevant_found": 3,
+      "n_relevant_total": 4,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q006",
+      "question": "What are the standard shipping times and costs?",
+      "category": "standard",
+      "ndcg_at_5": 0.7653606369886217,
+      "n_retrieved": 6,
+      "n_relevant_found": 2,
+      "n_relevant_total": 3,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q017",
+      "question": "How do I delete my ACME account?",
+      "category": "standard",
+      "ndcg_at_5": 0.7860137352654724,
+      "n_retrieved": 6,
+      "n_relevant_found": 4,
+      "n_relevant_total": 5,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q008",
+      "question": "How do I track my order?",
+      "category": "standard",
+      "ndcg_at_5": 0.8048099750039491,
+      "n_retrieved": 6,
+      "n_relevant_found": 3,
+      "n_relevant_total": 4,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q019",
+      "question": "Do I need an account to place an order?",
+      "category": "standard",
+      "ndcg_at_5": 0.830419897363192,
+      "n_retrieved": 6,
+      "n_relevant_found": 4,
+      "n_relevant_total": 5,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q015",
+      "question": "How do I get a VAT invoice?",
+      "category": "standard",
+      "ndcg_at_5": 0.8318724637288826,
+      "n_retrieved": 6,
+      "n_relevant_found": 3,
+      "n_relevant_total": 4,
+      "failure_mode": "partial_recall"
+    }
+  ]
+}
