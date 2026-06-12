@@ -1,17 +1,15 @@
 # RAG Experiment Findings
 
-<!-- Template — fill in after running all experiments -->
-
 ## Executive Summary
 
-<!-- 3-5 sentences: what changed, by how much, what we're shipping -->
+Three ablations were run end-to-end on the ACME KB gold set (n=50, CPU-only Llama 3.2). Embedding model `all-mpnet-base-v2` modestly outperforms the production `all-MiniLM-L6-v2` (+0.018 nDCG@5) at ~2.6x query latency (still <80ms). The biggest retrieval win comes from chunking: switching to semantic chunking (`semantic_512`) lifts nDCG@5 from 0.761 to 0.860, and adding cross-encoder reranking on top of hybrid RRF pushes it to 0.900 at the cost of +680ms latency. On the prompt side, the production zero-shot prompt has a poor citation rate (30%) and two false refusals; switching to a `concise_bullets` (always-bullets, strict citation) prompt raises citation rate to 95% with zero false refusals, at roughly half the generation latency of the verbose baseline.
 
 | Workstream | Baseline (nDCG@5) | Best Config | Δ nDCG@5 | Significant? |
 |---|---|---|---|---|
-| Embedding model | [TBD] | [TBD] | [TBD] | [TBD] |
-| Chunking strategy | [TBD] | [TBD] | [TBD] | [TBD] |
-| Retrieval method | [TBD] | [TBD] | [TBD] | [TBD] |
-| Prompt template | [TBD] | [TBD] | Δ citation rate, refusal acc. | [TBD] |
+| Embedding model | 0.713 (all-MiniLM-L6-v2) | all-mpnet-base-v2 (0.731) | +0.018 | CIs overlap — not significant at n=30, but consistent winner on MRR/precision@1 too |
+| Chunking strategy | 0.761 (recursive_512_64) | semantic_512 (0.860) | +0.099 | Large gap vs. CI width (~0.10) — likely meaningful |
+| Retrieval method | 0.860 (dense_only, on semantic_512) | hybrid_rrf_reranked (0.900) | +0.040 | Modest gain, +680ms latency — judgment call |
+| Prompt template | citation_rate=30%, false_refusal=20% (baseline_zero_shot) | concise_bullets (citation=95%, false_refusal=0%) | Δ citation +65pp, Δ false refusal -20pp | Large, consistent across categories |
 
 ---
 
@@ -45,94 +43,104 @@ python experiments/prompt_experiments/run_prompt_ablation.py --config experiment
 
 **Leaderboard** (nDCG@5, 95% CI):
 
-| Model | nDCG@5 | CI Lower | CI Upper | Latency (ms) | Memory (MB) |
-|---|---|---|---|---|---|
-| [Model A] | [TBD] | [TBD] | [TBD] | [TBD] | [TBD] |
-| all-MiniLM-L6-v2 *(baseline)* | [TBD] | [TBD] | [TBD] | [TBD] | 56 |
-| ... | | | | | |
+| Model | Dim | nDCG@5 | CI Lower | CI Upper | MRR | Latency (ms) |
+|---|---|---|---|---|---|---|
+| all-mpnet-base-v2 | 768 | 0.731 | 0.644 | 0.813 | 0.967 | 78.1 |
+| all-MiniLM-L6-v2 *(baseline)* | 384 | 0.713 | 0.624 | 0.789 | 0.928 | 29.6 |
+| bge-small-en-v1.5 | 384 | 0.700 | 0.599 | 0.791 | 0.928 | 38.0 |
+| e5-small-v2 | 384 | 0.695 | 0.598 | 0.781 | 0.933 | 35.8 |
+| bge-base-en-v1.5 | 768 | 0.687 | 0.597 | 0.769 | 0.922 | 97.0 |
 
 **Pareto plot**: `experiments/plots/embedding_pareto.png`
 
-**Key finding**: [Describe which model wins and why]
+**Key finding**: `all-mpnet-base-v2` wins on nDCG@5, MRR, and precision@1 (0.933 vs 0.867 for the baseline), but its CI overlaps heavily with the baseline's — the gain is directionally consistent but not statistically significant at n=30. Larger 768-dim models (mpnet, bge-base) generally beat their 384-dim counterparts here, suggesting the extra dimensionality captures the ACME KB's domain vocabulary slightly better.
 
-**Failure mode analysis**: [Which query types did the baseline fail on that the winner handled? E.g., paraphrase queries, exact-term queries]
+**Failure mode analysis**: The baseline's nDCG@1 (0.867) trails mpnet's (0.933) — mpnet more often surfaces the single best chunk in the top position, which matters most for short factual queries where only one chunk is relevant.
 
-**Winner**: `[model_id]` — [reason: e.g., "best quality with only 20% latency overhead over baseline"]
+**Winner**: `sentence-transformers/all-mpnet-base-v2` — best quality across nDCG@5/MRR/precision@1, and at 78ms mean query latency it's still well within an interactive SLA (the production threshold is the LLM generation step, which is 10-20x slower).
 
 ---
 
 ### 2. Chunking Strategy Ablation
 
-**Leaderboard** (dense retrieval, winning embedding model):
+**Leaderboard** (dense retrieval, all-mpnet-base-v2 embeddings):
 
-| Strategy | Chunk Size | Overlap | nDCG@5 | CI |
-|---|---|---|---|---|
-| recursive_512_64 *(baseline)* | 512 | 64 | [TBD] | |
-| [Best strategy] | [TBD] | [TBD] | [TBD] | |
-| ... | | | | |
+| Strategy | nDCG@5 | Mean Latency (ms) |
+|---|---|---|
+| semantic_512 | 0.860 | 72.6 |
+| fixed_1024_0 | 0.811 | 74.4 |
+| fixed_1024_10pct | 0.810 | 75.0 |
+| recursive_512_64 *(baseline)* | 0.761 | 74.3 |
+| fixed_512_25pct | 0.750 | 75.1 |
+| fixed_512_10pct | 0.740 | 76.2 |
+| fixed_512_0 | 0.728 | 75.7 |
+| fixed_256_25pct | 0.726 | 73.5 |
+| fixed_256_0 | 0.677 | 76.6 |
+| sentence_window_3 | 0.609 | 74.8 |
 
-**Key finding**: [E.g., "Larger chunks (1024) improve nDCG@5 by X because ACME KB sections are coherent paragraphs; smaller chunks fragment policy explanations"]
+**Key finding**: Semantic chunking (embedding-similarity-based splits, target ~512 chars) beats the production recursive splitter by +0.099 nDCG@5 — the largest single gain in the whole study. Fixed 1024-char chunks are the next best, suggesting the production 512-char recursive chunks are cutting policy explanations mid-thought; larger or semantically-coherent chunks keep full answers together.
 
-**Failure mode**: [E.g., "256-char chunks frequently split mid-sentence, causing retrieval to surface partial policy statements"]
+**Failure mode**: `sentence_window_3` performs worst (0.609) — windowing around single sentences loses too much surrounding context for the multi-hop and ambiguous question categories, which need a full paragraph of policy text to answer correctly.
 
-**Winner**: `[strategy_name]`
+**Winner**: `semantic_512` — clear, large margin over baseline; no latency penalty vs. fixed-size chunking.
 
 ---
 
 ### 3. Retrieval Method Ablation
 
-**Using**: [winning embedding model] + [winning chunking strategy]
+**Using**: `all-mpnet-base-v2` + `semantic_512` chunking
 
 **Leaderboard** (nDCG@5):
 
-| Method | nDCG@5 | CI | Latency (ms) | vs Baseline (Wilcoxon p) |
-|---|---|---|---|---|
-| dense_only *(baseline)* | [TBD] | | [TBD] | — |
-| bm25_only | [TBD] | | [TBD] | [TBD] |
-| hybrid_rrf | [TBD] | | [TBD] | [TBD] |
-| hybrid_rrf_reranked | [TBD] | | [TBD] | [TBD] |
-| hyde | [TBD] | | [TBD] | [TBD] |
-| multi_query_3 | [TBD] | | [TBD] | [TBD] |
+| Method | nDCG@5 | Mean Latency (ms) | Notes |
+|---|---|---|---|
+| dense_only *(baseline)* | 0.860 | 86.3 | — |
+| bm25_only | 0.838 | 0.16 | near-baseline quality at negligible latency |
+| hybrid_rrf | 0.844 | 75.9 | slightly below dense-only alone |
+| hybrid_rrf_reranked | 0.900 | 764.3 | best quality, +678ms over baseline |
+| hyde | error | — | failed: Ollama 500 (insufficient memory for `llama3.2:latest` — 2.3GB required, 1.9GB available) |
+| multi_query_3 | 0.805 | 3245.4 | 3 extra LLM calls per query — far too slow for CPU-only interactive use |
 
-**Key finding**: [E.g., "Hybrid RRF improves nDCG@5 by +0.08 (p=0.02) over dense-only. BM25 alone outperforms dense on exact-term queries (prices, URLs) but fails on paraphrase questions."]
+**Key finding**: Plain BM25 is nearly as good as dense retrieval (0.838 vs 0.860) at essentially zero cost — the ACME KB has high lexical overlap between questions and source text. Hybrid RRF alone doesn't beat dense-only here. Cross-encoder reranking on top of hybrid RRF gives the best absolute quality (0.900) but at a ~9x latency increase (764ms vs 86ms).
 
-**Cross-encoder note**: [Latency overhead vs. quality gain for reranking step]
+**Cross-encoder note**: +678ms for +0.040 nDCG@5. On an 8GB CPU-only box this is a real trade-off — acceptable if the LLM generation step (10-20s) dominates total latency anyway, but adds up if retrieval is called multiple times (e.g., multi-query).
 
-**Winner**: `[method_name]` — [latency vs. quality justification]
+**HyDE failure**: HyDE generates a hypothetical answer via an LLM call before embedding the query. On this 8GB machine, `llama3.2:latest` (2.3GB) couldn't be loaded alongside the embedding model + cross-encoder already in memory (1.9GB available), producing a hard 500 error with no fallback in `hyde.py`. Not retried — documented as a known limitation (see Limitations).
+
+**Winner**: `hybrid_rrf_reranked` — best quality (0.900), and since end-to-end latency is dominated by the ~15-20s LLM generation call, the +678ms retrieval overhead is a <5% increase in total response time. If a future deployment is more latency-sensitive (e.g., a faster LLM), `bm25_only` is a strong near-zero-cost fallback.
 
 ---
 
 ### 4. Prompt Template Ablation
 
-**Primary metrics** (full dataset including adversarial):
+**Note on methodology**: To keep an 8-template sweep tractable on CPU-only Ollama (~15-25s per generation call), the gold set was subsampled to 5 pairs per category (20 of 50 total, `prompt_sample_per_category: 5` in `prompts.yaml`), stratified across `standard`, `multi_hop`, `out_of_scope`, and `ambiguous` so refusal/citation metrics remain meaningful. Retrieval used the **current production config** (`all-MiniLM-L6-v2`, `dense_only`, 512/64 chunks) — not the winning configs from experiments 1-3 — since this script queries the live production ChromaDB directly (see Limitations).
 
-| Template | Faithfulness | Citation Rate | True Refusal | False Refusal |
-|---|---|---|---|---|
-| baseline_zero_shot | [TBD] | [TBD] | [TBD] | [TBD] |
-| few_shot_2 | [TBD] | [TBD] | [TBD] | [TBD] |
-| few_shot_3 | [TBD] | [TBD] | [TBD] | [TBD] |
-| cot_zero_shot | [TBD] | [TBD] | [TBD] | [TBD] |
-| structured_citations | [TBD] | [TBD] | [TBD] | [TBD] |
-| ... | | | | |
+**Leaderboard** (composite score = 0.4·faithfulness + 0.3·citation_rate + 0.3·true_refusal):
 
-**Key finding**: [E.g., "2-shot examples improve citation rate by +25pp and refusal accuracy by +10pp. CoT adds 800ms latency with marginal quality gain on this corpus."]
+| Rank | Template | Faithfulness | Citation Rate | True Refusal | False Refusal | Mean Latency (ms) | Score |
+|---|---|---|---|---|---|---|---|
+| 1 | concise_bullets | 0.483 | 95.0% | 100% | 0% | 11,530 | 0.778 |
+| 2 | structured_citations | 0.390 | 100.0% | 100% | 0% | 13,015 | 0.756 |
+| 3 | few_shot_2 | 0.468 | 50.0% | 100% | 0% | — | 0.637 |
+| 4 | few_shot_3 | 0.434 | 40.0% | 100% | 20% | — | 0.593 |
+| 5 | baseline_zero_shot | 0.490 | 30.0% | 100% | 20% | 23,027 | 0.586 |
+| 6 | cot_zero_shot | 0.472 | 30.0% | 100% | 20% | — | 0.579 |
+| 7 | cot_few_shot_2 | 0.392 | 40.0% | 100% | 60% | — | 0.577 |
+| 8 | verbose_refusal | 0.482 | 25.0% | 100% | 20% | — | 0.568 |
 
-**False refusal analysis**: [Which question types were incorrectly refused? Ambiguous questions are expected to have higher false refusal rates.]
+**Key finding**: The production prompt (`baseline_zero_shot`) has a very low citation rate (30%) and one false refusal (a `standard` question incorrectly refused: "Can I return a gift card?"). Enforcing a structured/bullet output format dramatically improves citation rate — `concise_bullets` (95%) and `structured_citations` (100%) are the top two by a wide margin — and both eliminate false refusals entirely on this sample. `cot_few_shot_2` is the worst performer on false refusals (60%): combining few-shot examples with chain-of-thought appears to make the 1B model overly cautious, talking itself into refusing answerable questions.
 
-**Winner**: `[template_name]`
+**Latency**: `concise_bullets` is also ~2x faster than the baseline (11.5s vs 23s mean) — shorter, more constrained output formats reduce generation length for this 1B model.
+
+**False refusal analysis**: All false refusals occurred on `standard` category questions (not `ambiguous`, where some refusal is arguably correct). The recurring failure question across templates was "Can I return a gift card?" — likely because gift-card return policy is stated indirectly in the source docs and the model's faithfulness threshold for "enough information" is miscalibrated for indirect phrasing. Bullet-formatted prompts (`concise_bullets`, `structured_citations`) avoided this failure entirely in this sample.
+
+**Winner**: `concise_bullets` — best composite score, near-perfect citation rate, zero false refusals, and the fastest of the top performers. `structured_citations` is a close second (slightly better citation rate but notably lower faithfulness and +1.5s latency).
 
 ---
 
 ### 5. RAGAS End-to-End Evaluation (Finalist Configs)
 
-Evaluated on top-3 configurations from retrieval + prompt ablation.
-⚠️ **Bias note**: Judge model = Llama 3.2 1B = generator model. Scores overestimate absolute quality; relative comparisons are valid.
-
-| Config | Faithfulness | AnswerRelevancy | ContextPrecision | ContextRecall |
-|---|---|---|---|---|
-| Baseline (production) | [TBD] | [TBD] | [TBD] | [TBD] |
-| Best retrieval | [TBD] | [TBD] | [TBD] | [TBD] |
-| Best prompt | [TBD] | [TBD] | [TBD] | [TBD] |
+**Not run**: `ragas>=0.2.0` is not installed in this environment (`RAGAS not installed` logged at the start of every experiment run). The heuristic faithfulness/citation/refusal metrics above were used instead. If a stronger judge model becomes available, install `ragas` and re-run the prompt + retrieval ablations to get LLM-as-judge Faithfulness/AnswerRelevancy/ContextPrecision/ContextRecall for the finalist configs (`semantic_512` + `hybrid_rrf_reranked` + `concise_bullets`).
 
 ---
 
@@ -140,33 +148,51 @@ Evaluated on top-3 configurations from retrieval + prompt ablation.
 
 | Parameter | Current | Recommended | Rationale |
 |---|---|---|---|
-| `embedding_model` | `all-MiniLM-L6-v2` | `[TBD]` | [TBD] |
-| `chunk_size` | `512` | `[TBD]` | [TBD] |
-| `chunk_overlap` | `64` | `[TBD]` | [TBD] |
-| Retrieval method | Dense only | `[TBD]` | [TBD] |
-| `retrieval_top_k` | `4` | `[TBD]` | [TBD] |
-| `similarity_threshold` | `0.3` | `[TBD]` | [TBD] |
-| Prompt template | Zero-shot | `[TBD]` | [TBD] |
+| `embedding_model` | `all-MiniLM-L6-v2` | `all-mpnet-base-v2` | Best nDCG@5/MRR/precision@1; latency still <80ms |
+| `chunking strategy` | recursive, 512/64 | semantic chunking, target ~512 chars | +0.099 nDCG@5, largest single win |
+| Retrieval method | Dense only | `hybrid_rrf_reranked` (BM25 + dense + RRF + cross-encoder rerank) | +0.040 nDCG@5 over dense-only; +678ms acceptable given 15-20s LLM generation dominates latency |
+| `retrieval_top_k` | `4` | `4` | Not re-tuned this round; revisit if reranking changes optimal k |
+| `similarity_threshold` | `0.3` | re-tune after re-ingest | Embedding space changes with new model — old threshold (0.3) was calibrated for MiniLM cosine distances and will need recalibration |
+| Prompt template | Zero-shot (`baseline_zero_shot`) | `concise_bullets` | Citation rate 30% → 95%, false refusals 20% → 0%, ~2x faster generation |
 
-**Expected improvement**: nDCG@5 from [baseline] → [new], Δ = [X] ([p-value], n=30 standard queries)
+**Expected improvement**: Retrieval nDCG@5 0.761 (current production: recursive_512_64 + dense_only on MiniLM) → 0.900 (semantic_512 + hybrid_rrf_reranked on mpnet), Δ = +0.139 combined across embedding + chunking + retrieval changes (n=30 standard queries; individual deltas reported per-experiment above — note embedding model delta alone is within CI noise).
 
-**Latency trade-off**: [Median query latency before / after. Is it acceptable for your SLA?]
+**Latency trade-off**: Retrieval latency goes from ~30-86ms (current dense MiniLM) to ~764ms (mpnet + hybrid_rrf_reranked) — a real increase in absolute terms, but negligible relative to the ~15-25s LLM generation step that dominates total response time. The prompt template change (`concise_bullets`) actually *reduces* generation latency by ~2x (23s → 11.5s), which more than offsets the retrieval overhead — net effect should be a faster end-to-end response despite the retrieval cost increase.
 
 ---
 
 ## Limitations
 
-1. **Small eval set (n=50)**: Bootstrap CIs are wide; improvements < 0.05 nDCG should not be treated as reliable signals. Collect more gold pairs before the next evaluation round.
+1. **Small eval set (n=50)**: Bootstrap CIs are wide; improvements < 0.05 nDCG should not be treated as reliable signals. The embedding model gain (+0.018 nDCG@5) falls inside this noise band — treat it as a tie-breaker (mpnet wins on MRR/precision@1 too) rather than a proven win. Collect more gold pairs before the next evaluation round.
 
 2. **Single-domain corpus**: The ACME KB is a clean, well-structured document. Results may not transfer to noisy, multi-document corpora.
 
-3. **Judge == generator bias**: All RAGAS LLM-as-judge scores use Llama 3.2 1B as both generator and judge. A stronger judge (e.g., Llama 3.1 70B via API) would give more reliable absolute scores.
+3. **RAGAS not installed**: LLM-as-judge metrics (Faithfulness, AnswerRelevancy, ContextPrecision, ContextRecall) were not computed — `ragas>=0.2.0` is missing from this environment. All generation-quality numbers above are from the heuristic faithfulness/citation/refusal proxies in `experiments/eval/ragas_eval.py`, not true RAGAS scores.
 
-4. **CPU-only inference**: Latency numbers are for CPU-only execution. On GPU, the relative ranking of methods may shift (cross-encoder reranking becomes relatively cheaper).
+4. **CPU-only inference, 8GB RAM**: Latency numbers are for CPU-only execution on an 8GB machine. On GPU, the relative ranking of methods may shift (cross-encoder reranking becomes relatively cheaper). Memory pressure was a recurring issue this round — see #5.
 
-5. **Synthetic QA bias**: Synthetic questions generated from chunks have higher overlap with the source chunk vocabulary, inflating recall for all retrieval methods. Excluded from primary results.
+5. **HyDE failed due to memory constraints**: The `hyde` retrieval method requires an LLM call to generate a hypothetical answer before embedding the query. On this 8GB box, with the embedding model + cross-encoder reranker already loaded, Ollama returned a 500 error ("model requires more system memory (2.3 GiB) than is available (1.9 GiB)"). `hyde.py` has no fallback for this case, so the whole method failed and was excluded from the retrieval leaderboard. Re-test on a machine with more headroom, or add a fallback to `hyde.py` that skips hypothesis generation when the LLM call fails.
 
-6. **Relevance labelling**: Pseudo-relevance labels derived from keyword overlap with gold answers. True relevance requires human annotation, especially for multi-hop questions.
+6. **Prompt ablation used a stratified subsample (n=20, not n=50)**: To keep the 8-template sweep tractable (~15-25s per CPU-bound LLM call → ~2.5h for the full set), each run used 5 pairs per category (20 of 50 total), stratified across `standard`/`multi_hop`/`out_of_scope`/`ambiguous`. This preserves coverage of all 4 categories for refusal/citation metrics but the faithfulness/citation percentages (e.g., 95% for `concise_bullets`) are based on small per-category counts (n=5) — re-run on the full n=50 set before treating these as final numbers for a production decision.
+
+7. **Prompt ablation ran against the *current* production config, not the experiment 1-3 winners**: `run_prompt_ablation.py` queries the live production ChromaDB (`embedding_model: all-MiniLM-L6-v2`, `retrieval_method: dense_only`, `chunk_size: 512/64` in `prompts.yaml`) — these were deliberately left unchanged because the production ChromaDB collection was built with MiniLM embeddings (384-dim), and querying it with a different embedding model would cause a dimension mismatch. If the embedding/chunking/retrieval recommendations above are adopted and the corpus is re-ingested, the prompt ablation should be re-run against the new index — the winning prompt template's ranking may shift with better-quality retrieved context.
+
+8. **Synthetic QA bias**: Synthetic questions generated from chunks have higher overlap with the source chunk vocabulary, inflating recall for all retrieval methods. Excluded from primary results.
+
+9. **Relevance labelling**: Pseudo-relevance labels derived from keyword overlap with gold answers. True relevance requires human annotation, especially for multi-hop questions.
+
+---
+
+## Integration Guidance
+
+See `experiments/INTEGRATION.md` for the step-by-step process. Summary for this round's recommendations:
+
+1. **Embedding model** → update `.env`: `EMBEDDING_MODEL=sentence-transformers/all-mpnet-base-v2`. Then **stop the API and re-ingest** (`python scripts/ingest.py --verbose`) — the ChromaDB collection must be rebuilt at 768-dim, it cannot be queried with a different embedding model than it was built with.
+2. **Chunking** → semantic chunking isn't a single `.env` value; it requires wiring `SemanticChunker` (see `experiments/retrieval_experiments/chunking.py` for the implementation used in this ablation) into `app/ingestion/pipeline.py`'s chunking step, with an `embeddings` instance using the new `all-mpnet-base-v2` model. Re-ingest after this change too (same step as #1, can be combined into one re-ingest).
+3. **Retrieval method** → `hybrid_rrf_reranked` requires the BM25 + hybrid retriever + cross-encoder reranker wiring described in INTEGRATION.md Step 4 (a-f). This is the largest integration lift of the three changes — budget accordingly, and consider shipping embedding+chunking first as a smaller PR, then hybrid retrieval as a follow-up.
+4. **Prompt template** → copy the `concise_bullets` system prompt body (the `_ALWAYS_BULLETS_RULES` template in `experiments/prompt_experiments/templates.py`, with `format_instruction="always_bullets"`) into `app/generation/prompt.py`'s `SYSTEM_TEMPLATE`. No few-shot examples needed (this is a zero-shot template), so no changes to `build_prompt()`'s message list beyond the system prompt text. This is the lowest-effort, highest-impact change — consider shipping it first/independently.
+5. **`similarity_threshold`** — after re-ingesting with the new embedding model, re-run a small retrieval smoke test to recalibrate `SIMILARITY_THRESHOLD` (currently `0.3`, tuned for MiniLM's cosine distance distribution); mpnet's score distribution may differ.
+6. After integrating, re-run `pytest -v` and the Step 5 smoke test in INTEGRATION.md, then re-run the retrieval and prompt ablations against the new production index to confirm the gains hold end-to-end (see Limitation #7).
 
 ---
 
