@@ -13,6 +13,7 @@
 # Expected Pareto winner: hybrid_rrf or hybrid_rrf_reranked depending on the
 # latency budget. Pure BM25 will likely beat dense-only for this corpus (factual
 # customer support text with specific numbers, URLs, policy terms).
+"""
 
 import argparse
 import json
@@ -229,12 +230,18 @@ def run_phase_chunking(cfg: dict, docs: list[Document], dataset, results_dir: Pa
     baseline_results_obj = None
     phase_results = []
 
+    semantic_embeddings = HuggingFaceEmbeddings(
+        model_name=embedding_model_id,
+        model_kwargs={"device": "cpu"},
+        encode_kwargs={"normalize_embeddings": True},
+    )
+
     for strategy_cfg in cfg["chunking_strategies"]:
         name = strategy_cfg["name"]
         is_baseline = strategy_cfg.get("is_baseline", False)
         logger.info(f"\n--- Chunking: {name} ---")
 
-        chunks, _ = apply_chunking_strategy(docs, strategy_cfg)
+        chunks, _ = apply_chunking_strategy(docs, strategy_cfg, embedding_model=semantic_embeddings)
         store, coll_name = build_chroma_store(
             chunks, embedding_model_id, cfg["chroma"]["experiment_persist_dir"]
         )
@@ -289,7 +296,12 @@ def run_phase_retrieval(
     phase_results = []
 
     # Build shared chunks and indexes for this phase
-    chunks, window_map = apply_chunking_strategy(docs, best_chunking_cfg)
+    semantic_embeddings = HuggingFaceEmbeddings(
+        model_name=embedding_model_id,
+        model_kwargs={"device": "cpu"},
+        encode_kwargs={"normalize_embeddings": True},
+    )
+    chunks, window_map = apply_chunking_strategy(docs, best_chunking_cfg, embedding_model=semantic_embeddings)
     store, coll_name = build_chroma_store(
         chunks, embedding_model_id, cfg["chroma"]["experiment_persist_dir"]
     )
@@ -373,7 +385,7 @@ def run_phase_retrieval(
     valid.sort(key=lambda x: x["ndcg_at_5"], reverse=True)
     logger.info("\n=== RETRIEVAL METHOD LEADERBOARD ===")
     for r in valid:
-        marker = " ← BEST" if r == valid[0] else (" ← BASELINE" if r["name"] == "dense_only" else "")
+        marker = " <- BEST" if r == valid[0] else (" <- BASELINE" if r["name"] == "dense_only" else "")
         beats = " [beats baseline]" if r.get("beats_baseline") else ""
         logger.info(f"  {r['name']:<35} nDCG@5={r['ndcg_at_5']:.3f}  lat={r.get('mean_ms', 0):.1f}ms{beats}{marker}")
     return phase_results
@@ -467,8 +479,8 @@ def run(config_path: str, data_dir: str | None = None, phases: str = "all") -> N
         valid = [r for r in retrieval_results if "error" not in r]
         if valid:
             best = max(valid, key=lambda r: r.get("ndcg_at_5", 0))
-            print(f"\n✓ Best retrieval config: {best['name']} (nDCG@5={best['ndcg_at_5']:.3f})")
-            print(f"  Update experiments/config/prompts.yaml → retrieval_method: \"{best['name']}\"")
+            print(f"\nBest retrieval config: {best['name']} (nDCG@5={best['ndcg_at_5']:.3f})")
+            print(f"  Update experiments/config/prompts.yaml -> retrieval_method: \"{best['name']}\"")
 
 
 if __name__ == "__main__":

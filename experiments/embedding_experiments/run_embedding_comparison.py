@@ -12,6 +12,7 @@
 # Expected primary failure mode: all-MiniLM tends to struggle with questions
 # that use different vocabulary from the document (paraphrase gap); BGE models
 # use hard-negative mining which reduces this.
+"""
 
 import argparse
 import json
@@ -355,7 +356,7 @@ def run(config_path: str, data_dir: str | None = None) -> None:
     print(f"{'Rank':<5} {'Model':<30} {'nDCG@5':<10} {'MRR':<10} {'Latency(ms)':<14} {'Memory(MB)':<12}")
     print("-" * 85)
     for rank, r in enumerate(valid, 1):
-        marker = " ← BEST" if rank == 1 else (" ← BASELINE" if r.get("is_baseline") else "")
+        marker = " <- BEST" if rank == 1 else (" <- BASELINE" if r.get("is_baseline") else "")
         print(
             f"{rank:<5} {r['model_name']:<30} "
             f"{r.get('ndcg_at_5', float('nan')):<10.3f} "

@@ -15,6 +15,7 @@
 #   artefacts that confuse downstream parsing
 # - The biggest failure mode is false refusals on ambiguous questions —
 #   track this separately from out-of-scope refusals
+"""
 
 import argparse
 import json
@@ -253,6 +254,21 @@ def run(config_path: str, data_dir: str | None = None) -> None:
 
     # Load full dataset (standard + adversarial) for prompt eval
     dataset = load_gold_dataset(exp_cfg["gold_qa_path"])
+
+    # Each query requires a real CPU-bound LLM generation call (~15-20s with
+    # llama3.2:latest), so 8 templates x len(dataset) quickly becomes hours.
+    # Subsample per category to keep refusal/citation/faithfulness metrics
+    # meaningful while keeping the ablation tractable on an 8GB CPU-only box.
+    sample_size = cfg.get("prompt_sample_per_category")
+    if sample_size:
+        by_category: dict[str, list] = {}
+        for pair in dataset.pairs:
+            by_category.setdefault(pair.category, []).append(pair)
+        sampled = []
+        for category, pairs in by_category.items():
+            sampled.extend(pairs[:sample_size])
+        dataset = EvalDataset(pairs=sampled, version=dataset.version, description=dataset.description)
+
     logger.info(f"Dataset: {dataset.stats()}")
 
     # Build LLM and retrieval function (uses production ChromaDB)

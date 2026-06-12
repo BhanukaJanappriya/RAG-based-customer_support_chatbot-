@@ -1,0 +1,533 @@
+{
+  "config_name": "bge-small-en-v1.5",
+  "config_params": {
+    "name": "bge-small-en-v1.5",
+    "model_id": "BAAI/bge-small-en-v1.5",
+    "dim": 384,
+    "is_baseline": false,
+    "notes": "MTEB SOTA small model; BGE uses a query prefix instruction"
+  },
+  "n_queries": 30,
+  "timestamp": "2026-06-12T06:38:38.207822",
+  "retrieval_metrics": {
+    "precision_at_1": {
+      "mean": 0.9,
+      "std": 0.3,
+      "ci": {
+        "point": 0.9,
+        "lower": 0.7666666666666667,
+        "upper": 1.0,
+        "std_err": 0.0559544339302457
+      }
+    },
+    "recall_at_1": {
+      "mean": 0.44400793650793646,
+      "std": 0.4059306752253878,
+      "ci": {
+        "point": 0.44400793650793646,
+        "lower": 0.305220238095238,
+        "upper": 0.5990119047619047,
+        "std_err": 0.07375591184598809
+      }
+    },
+    "ndcg_at_1": {
+      "mean": 0.9,
+      "std": 0.3,
+      "ci": {
+        "point": 0.9,
+        "lower": 0.7666666666666667,
+        "upper": 1.0,
+        "std_err": 0.05621113692264512
+      }
+    },
+    "hit_rate_at_1": {
+      "mean": 0.9,
+      "std": 0.3,
+      "ci": {
+        "point": 0.9,
+        "lower": 0.8,
+        "upper": 1.0,
+        "std_err": 0.05465805575223262
+      }
+    },
+    "precision_at_3": {
+      "mean": 0.5000000000000001,
+      "std": 0.23959842947608698,
+      "ci": {
+        "point": 0.5000000000000001,
+        "lower": 0.4222222222222222,
+        "upper": 0.5999999999999999,
+        "std_err": 0.04512433887654713
+      }
+    },
+    "recall_at_3": {
+      "mean": 0.5449603174603174,
+      "std": 0.35086340477568134,
+      "ci": {
+        "point": 0.5449603174603174,
+        "lower": 0.4211478174603175,
+        "upper": 0.6620525793650791,
+        "std_err": 0.06315672734778566
+      }
+    },
+    "ndcg_at_3": {
+      "mean": 0.7656677502765368,
+      "std": 0.2553406955792867,
+      "ci": {
+        "point": 0.7656677502765368,
+        "lower": 0.6657200321421086,
+        "upper": 0.8537960133824437,
+        "std_err": 0.046820346262971595
+      }
+    },
+    "hit_rate_at_3": {
+      "mean": 0.9666666666666667,
+      "std": 0.17950549357115012,
+      "ci": {
+        "point": 0.9666666666666667,
+        "lower": 0.9,
+        "upper": 1.0,
+        "std_err": 0.031485644192785364
+      }
+    },
+    "precision_at_5": {
+      "mean": 0.3333333333333332,
+      "std": 0.18135294011647257,
+      "ci": {
+        "point": 0.3333333333333332,
+        "lower": 0.27316666666666667,
+        "upper": 0.3934999999999999,
+        "std_err": 0.03308108695114815
+      }
+    },
+    "recall_at_5": {
+      "mean": 0.5650000000000001,
+      "std": 0.3352953312882144,
+      "ci": {
+        "point": 0.5650000000000001,
+        "lower": 0.44796527777777767,
+        "upper": 0.6881974206349205,
+        "std_err": 0.06271216083783036
+      }
+    },
+    "ndcg_at_5": {
+      "mean": 0.6996839882744205,
+      "std": 0.265243106050746,
+      "ci": {
+        "point": 0.6996839882744205,
+        "lower": 0.5989083685072139,
+        "upper": 0.7908532345544714,
+        "std_err": 0.0493339797305878
+      }
+    },
+    "hit_rate_at_5": {
+      "mean": 0.9666666666666667,
+      "std": 0.17950549357115012,
+      "ci": {
+        "point": 0.9666666666666667,
+        "lower": 0.9,
+        "upper": 1.0,
+        "std_err": 0.03217802705924378
+      }
+    },
+    "precision_at_10": {
+      "mean": 0.1666666666666666,
+      "std": 0.09067647005823629,
+      "ci": {
+        "point": 0.1666666666666666,
+        "lower": 0.1366666666666667,
+        "upper": 0.19999999999999998,
+        "std_err": 0.01606793738926308
+      }
+    },
+    "recall_at_10": {
+      "mean": 0.5650000000000001,
+      "std": 0.3352953312882144,
+      "ci": {
+        "point": 0.5650000000000001,
+        "lower": 0.44157242063492064,
+        "upper": 0.6859454365079365,
+        "std_err": 0.06188242186292134
+      }
+    },
+    "ndcg_at_10": {
+      "mean": 0.6376801963293774,
+      "std": 0.292357581550678,
+      "ci": {
+        "point": 0.6376801963293774,
+        "lower": 0.5377704841010423,
+        "upper": 0.7401632159588173,
+        "std_err": 0.05337531148146664
+      }
+    },
+    "hit_rate_at_10": {
+      "mean": 0.9666666666666667,
+      "std": 0.17950549357115012,
+      "ci": {
+        "point": 0.9666666666666667,
+        "lower": 0.9,
+        "upper": 1.0,
+        "std_err": 0.03244664862862498
+      }
+    },
+    "mrr": {
+      "mean": 0.9277777777777778,
+      "std": 0.226418709692387,
+      "ci": {
+        "point": 0.9277777777777778,
+        "lower": 0.8387499999999999,
+        "upper": 1.0,
+        "std_err": 0.0426644991519055
+      }
+    },
+    "context_relevance": {
+      "mean": 0.65,
+      "std": 0.30000000000000004,
+      "ci": {
+        "point": 0.65,
+        "lower": 0.5416666666666666,
+        "upper": 0.75,
+        "std_err": 0.05467884250314879
+      }
+    }
+  },
+  "latency_stats": {
+    "mean_ms": 37.96268666628748,
+    "median_ms": 36.64684999239398,
+    "p95_ms": 44.35245499771554,
+    "max_ms": 55.07400000351481
+  },
+  "generation_metrics": {},
+  "comparison_vs_baseline": {
+    "baseline": {
+      "precision_at_1": {
+        "point": 0.8666666666666667,
+        "lower": 0.7333333333333333,
+        "upper": 0.9666666666666667,
+        "std_err": 0.06166167498667354
+      },
+      "recall_at_1": {
+        "point": 0.41484126984126984,
+        "lower": 0.2814930555555555,
+        "upper": 0.5539990079365079,
+        "std_err": 0.07125434459822245
+      },
+      "ndcg_at_1": {
+        "point": 0.8666666666666667,
+        "lower": 0.7333333333333333,
+        "upper": 0.9666666666666667,
+        "std_err": 0.06339126830519946
+      },
+      "hit_rate_at_1": {
+        "point": 0.8666666666666667,
+        "lower": 0.7333333333333333,
+        "upper": 0.9666666666666667,
+        "std_err": 0.06151246852292455
+      },
+      "precision_at_3": {
+        "point": 0.488888888888889,
+        "lower": 0.41111111111111115,
+        "upper": 0.5888888888888888,
+        "std_err": 0.04492569912531897
+      },
+      "recall_at_3": {
+        "point": 0.5685714285714286,
+        "lower": 0.4425277777777778,
+        "upper": 0.6918224206349205,
+        "std_err": 0.06206209140414513
+      },
+      "ndcg_at_3": {
+        "point": 0.759453222008333,
+        "lower": 0.6750704954139589,
+        "upper": 0.847265487965488,
+        "std_err": 0.044600327592854545
+      },
+      "hit_rate_at_3": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      },
+      "precision_at_5": {
+        "point": 0.3466666666666665,
+        "lower": 0.27999999999999997,
+        "upper": 0.42,
+        "std_err": 0.03607293677923923
+      },
+      "recall_at_5": {
+        "point": 0.6084126984126984,
+        "lower": 0.49735714285714283,
+        "upper": 0.7273472222222224,
+        "std_err": 0.06025100123548121
+      },
+      "ndcg_at_5": {
+        "point": 0.7126807830867932,
+        "lower": 0.624066838794154,
+        "upper": 0.7893081413026157,
+        "std_err": 0.04383243975187922
+      },
+      "hit_rate_at_5": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      },
+      "precision_at_10": {
+        "point": 0.17333333333333326,
+        "lower": 0.14000000000000004,
+        "upper": 0.20674999999999996,
+        "std_err": 0.017863631221886066
+      },
+      "recall_at_10": {
+        "point": 0.6084126984126984,
+        "lower": 0.4934196428571428,
+        "upper": 0.7311795634920635,
+        "std_err": 0.06043478996352706
+      },
+      "ndcg_at_10": {
+        "point": 0.6496708465531053,
+        "lower": 0.5576848720454081,
+        "upper": 0.7452991659010348,
+        "std_err": 0.04783498225571498
+      },
+      "hit_rate_at_10": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      },
+      "mrr": {
+        "point": 0.9277777777777778,
+        "lower": 0.861111111111111,
+        "upper": 0.9833333333333333,
+        "std_err": 0.03344012848076536
+      },
+      "context_relevance": {
+        "point": 0.65,
+        "lower": 0.5416666666666666,
+        "upper": 0.75,
+        "std_err": 0.0557589064892336
+      }
+    },
+    "challenger": {
+      "precision_at_1": {
+        "point": 0.9,
+        "lower": 0.7666666666666667,
+        "upper": 1.0,
+        "std_err": 0.0559544339302457
+      },
+      "recall_at_1": {
+        "point": 0.44400793650793646,
+        "lower": 0.305220238095238,
+        "upper": 0.5990119047619047,
+        "std_err": 0.07375591184598809
+      },
+      "ndcg_at_1": {
+        "point": 0.9,
+        "lower": 0.7666666666666667,
+        "upper": 1.0,
+        "std_err": 0.05621113692264512
+      },
+      "hit_rate_at_1": {
+        "point": 0.9,
+        "lower": 0.8,
+        "upper": 1.0,
+        "std_err": 0.05465805575223262
+      },
+      "precision_at_3": {
+        "point": 0.5000000000000001,
+        "lower": 0.4222222222222222,
+        "upper": 0.5999999999999999,
+        "std_err": 0.04512433887654713
+      },
+      "recall_at_3": {
+        "point": 0.5449603174603174,
+        "lower": 0.4211478174603175,
+        "upper": 0.6620525793650791,
+        "std_err": 0.06315672734778566
+      },
+      "ndcg_at_3": {
+        "point": 0.7656677502765368,
+        "lower": 0.6657200321421086,
+        "upper": 0.8537960133824437,
+        "std_err": 0.046820346262971595
+      },
+      "hit_rate_at_3": {
+        "point": 0.9666666666666667,
+        "lower": 0.9,
+        "upper": 1.0,
+        "std_err": 0.031485644192785364
+      },
+      "precision_at_5": {
+        "point": 0.3333333333333332,
+        "lower": 0.27316666666666667,
+        "upper": 0.3934999999999999,
+        "std_err": 0.03308108695114815
+      },
+      "recall_at_5": {
+        "point": 0.5650000000000001,
+        "lower": 0.44796527777777767,
+        "upper": 0.6881974206349205,
+        "std_err": 0.06271216083783036
+      },
+      "ndcg_at_5": {
+        "point": 0.6996839882744205,
+        "lower": 0.5989083685072139,
+        "upper": 0.7908532345544714,
+        "std_err": 0.0493339797305878
+      },
+      "hit_rate_at_5": {
+        "point": 0.9666666666666667,
+        "lower": 0.9,
+        "upper": 1.0,
+        "std_err": 0.03217802705924378
+      },
+      "precision_at_10": {
+        "point": 0.1666666666666666,
+        "lower": 0.1366666666666667,
+        "upper": 0.19999999999999998,
+        "std_err": 0.01606793738926308
+      },
+      "recall_at_10": {
+        "point": 0.5650000000000001,
+        "lower": 0.44157242063492064,
+        "upper": 0.6859454365079365,
+        "std_err": 0.06188242186292134
+      },
+      "ndcg_at_10": {
+        "point": 0.6376801963293774,
+        "lower": 0.5377704841010423,
+        "upper": 0.7401632159588173,
+        "std_err": 0.05337531148146664
+      },
+      "hit_rate_at_10": {
+        "point": 0.9666666666666667,
+        "lower": 0.9,
+        "upper": 1.0,
+        "std_err": 0.03244664862862498
+      },
+      "mrr": {
+        "point": 0.9277777777777778,
+        "lower": 0.8387499999999999,
+        "upper": 1.0,
+        "std_err": 0.0426644991519055
+      },
+      "context_relevance": {
+        "point": 0.65,
+        "lower": 0.5416666666666666,
+        "upper": 0.75,
+        "std_err": 0.05467884250314879
+      }
+    },
+    "primary_metric": "ndcg_at_5",
+    "delta": -0.012996794812372703,
+    "significance": {
+      "statistic": 40.5,
+      "p_value": 0.7266877064190556,
+      "significant": false
+    },
+    "beats_baseline": false
+  },
+  "error_analysis": [
+    {
+      "id": "q022",
+      "question": "What are ACME's customer support hours?",
+      "category": "standard",
+      "ndcg_at_5": 0.0,
+      "n_retrieved": 4,
+      "n_relevant_found": 0,
+      "n_relevant_total": 1,
+      "failure_mode": "low_lexical_overlap"
+    },
+    {
+      "id": "q023",
+      "question": "What is the customer support phone number?",
+      "category": "standard",
+      "ndcg_at_5": 0.3065735963827292,
+      "n_retrieved": 4,
+      "n_relevant_found": 1,
+      "n_relevant_total": 2,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q016",
+      "question": "How do I reset my password?",
+      "category": "standard",
+      "ndcg_at_5": 0.3391602052736161,
+      "n_retrieved": 4,
+      "n_relevant_found": 1,
+      "n_relevant_total": 6,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q017",
+      "question": "How do I delete my ACME account?",
+      "category": "standard",
+      "ndcg_at_5": 0.3391602052736161,
+      "n_retrieved": 4,
+      "n_relevant_found": 1,
+      "n_relevant_total": 8,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q004",
+      "question": "Can I return a gift card?",
+      "category": "standard",
+      "ndcg_at_5": 0.46927872602275644,
+      "n_retrieved": 4,
+      "n_relevant_found": 1,
+      "n_relevant_total": 3,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q027",
+      "question": "What is the price match guarantee?",
+      "category": "standard",
+      "ndcg_at_5": 0.48522855511632257,
+      "n_retrieved": 4,
+      "n_relevant_found": 2,
+      "n_relevant_total": 6,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q003",
+      "question": "How long does a refund take to process?",
+      "category": "standard",
+      "ndcg_at_5": 0.5087403079104241,
+      "n_retrieved": 4,
+      "n_relevant_found": 2,
+      "n_relevant_total": 7,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q009",
+      "question": "What happens if my package is lost?",
+      "category": "standard",
+      "ndcg_at_5": 0.5087403079104241,
+      "n_retrieved": 4,
+      "n_relevant_found": 2,
+      "n_relevant_total": 7,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q021",
+      "question": "How do I file a warranty claim?",
+      "category": "standard",
+      "ndcg_at_5": 0.5296347172140421,
+      "n_retrieved": 4,
+      "n_relevant_found": 3,
+      "n_relevant_total": 12,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q005",
+      "question": "What should I do if I received the wrong item?",
+      "category": "standard",
+      "ndcg_at_5": 0.5531464700081437,
+      "n_retrieved": 4,
+      "n_relevant_found": 2,
+      "n_relevant_total": 8,
+      "failure_mode": "partial_recall"
+    }
+  ]
+}

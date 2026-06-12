@@ -18,9 +18,14 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
+
+# MLflow >=3 deprecates the local filesystem tracking backend by default;
+# this project intentionally uses "file:./mlruns" with no server process.
+os.environ.setdefault("MLFLOW_ALLOW_FILE_STORE", "true")
 
 import mlflow
 
@@ -65,7 +70,8 @@ def log_run(
     Yields:
         The active MLflow run object.
     """
-    with mlflow.start_run(run_name=run_name, tags=tags or {}) as run:
+    nested = mlflow.active_run() is not None
+    with mlflow.start_run(run_name=run_name, tags=tags or {}, nested=nested) as run:
         # Flatten nested dicts for MLflow's flat param store
         flat_params = _flatten_dict(params)
         # MLflow param values must be strings ≤ 500 chars

@@ -1,0 +1,532 @@
+{
+  "config_name": "chunk_fixed_1024_0",
+  "config_params": {
+    "name": "fixed_1024_0",
+    "strategy": "fixed",
+    "chunk_size": 1024,
+    "chunk_overlap": 0
+  },
+  "n_queries": 30,
+  "timestamp": "2026-06-12T07:14:57.671134",
+  "retrieval_metrics": {
+    "precision_at_1": {
+      "mean": 0.8,
+      "std": 0.4,
+      "ci": {
+        "point": 0.8,
+        "lower": 0.6333333333333333,
+        "upper": 0.9333333333333333,
+        "std_err": 0.0720229019793054
+      }
+    },
+    "recall_at_1": {
+      "mean": 0.3237962962962963,
+      "std": 0.3414427776933603,
+      "ci": {
+        "point": 0.3237962962962963,
+        "lower": 0.20878472222222222,
+        "upper": 0.4569120370370369,
+        "std_err": 0.06269103212624028
+      }
+    },
+    "ndcg_at_1": {
+      "mean": 0.8,
+      "std": 0.4,
+      "ci": {
+        "point": 0.8,
+        "lower": 0.6666666666666666,
+        "upper": 0.9333333333333333,
+        "std_err": 0.07150540555107024
+      }
+    },
+    "hit_rate_at_1": {
+      "mean": 0.8,
+      "std": 0.4,
+      "ci": {
+        "point": 0.8,
+        "lower": 0.6333333333333333,
+        "upper": 0.9333333333333333,
+        "std_err": 0.0765194870511116
+      }
+    },
+    "precision_at_3": {
+      "mean": 0.622222222222222,
+      "std": 0.28196838978776717,
+      "ci": {
+        "point": 0.622222222222222,
+        "lower": 0.5222222222222223,
+        "upper": 0.7222222222222222,
+        "std_err": 0.05165351743726092
+      }
+    },
+    "recall_at_3": {
+      "mean": 0.5684126984126984,
+      "std": 0.29961138430883727,
+      "ci": {
+        "point": 0.5684126984126984,
+        "lower": 0.46196527777777774,
+        "upper": 0.6786597222222223,
+        "std_err": 0.05506582709694081
+      }
+    },
+    "ndcg_at_3": {
+      "mean": 0.7926463985334979,
+      "std": 0.2438142600946495,
+      "ci": {
+        "point": 0.7926463985334979,
+        "lower": 0.7045534061366708,
+        "upper": 0.873985660090245,
+        "std_err": 0.04400050849446468
+      }
+    },
+    "hit_rate_at_3": {
+      "mean": 1.0,
+      "std": 0.0,
+      "ci": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      }
+    },
+    "precision_at_5": {
+      "mean": 0.5599999999999999,
+      "std": 0.29393876913398137,
+      "ci": {
+        "point": 0.5599999999999999,
+        "lower": 0.44666666666666666,
+        "upper": 0.6533333333333334,
+        "std_err": 0.051484085890582516
+      }
+    },
+    "recall_at_5": {
+      "mean": 0.7280291005291004,
+      "std": 0.20813622530833578,
+      "ci": {
+        "point": 0.7280291005291004,
+        "lower": 0.6529593253968253,
+        "upper": 0.8009282407407408,
+        "std_err": 0.038117647548850095
+      }
+    },
+    "ndcg_at_5": {
+      "mean": 0.8108682156204102,
+      "std": 0.18782314354885382,
+      "ci": {
+        "point": 0.8108682156204102,
+        "lower": 0.7387776609099758,
+        "upper": 0.8732749389630512,
+        "std_err": 0.034926331616884215
+      }
+    },
+    "hit_rate_at_5": {
+      "mean": 1.0,
+      "std": 0.0,
+      "ci": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      }
+    },
+    "precision_at_10": {
+      "mean": 0.44333333333333325,
+      "std": 0.2800991887806095,
+      "ci": {
+        "point": 0.44333333333333325,
+        "lower": 0.34666666666666673,
+        "upper": 0.5466666666666667,
+        "std_err": 0.050133638668768264
+      }
+    },
+    "recall_at_10": {
+      "mean": 1.0,
+      "std": 0.0,
+      "ci": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      }
+    },
+    "ndcg_at_10": {
+      "mean": 0.890035514434299,
+      "std": 0.13124012976101046,
+      "ci": {
+        "point": 0.890035514434299,
+        "lower": 0.839575189075372,
+        "upper": 0.9344909517032947,
+        "std_err": 0.02449478539655622
+      }
+    },
+    "hit_rate_at_10": {
+      "mean": 1.0,
+      "std": 0.0,
+      "ci": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      }
+    },
+    "mrr": {
+      "mean": 0.8944444444444444,
+      "std": 0.21293075440818665,
+      "ci": {
+        "point": 0.8944444444444444,
+        "lower": 0.8166666666666665,
+        "upper": 0.9666666666666667,
+        "std_err": 0.03783701284159921
+      }
+    },
+    "context_relevance": {
+      "mean": 0.49333333333333335,
+      "std": 0.283940525853958,
+      "ci": {
+        "point": 0.49333333333333335,
+        "lower": 0.4,
+        "upper": 0.5933333333333334,
+        "std_err": 0.05203288563835876
+      }
+    }
+  },
+  "latency_stats": {
+    "mean_ms": 74.42743000186358,
+    "median_ms": 73.66515000467189,
+    "p95_ms": 79.24833000215585,
+    "max_ms": 98.28869999910239
+  },
+  "generation_metrics": {},
+  "comparison_vs_baseline": {
+    "baseline": {
+      "precision_at_1": {
+        "point": 0.7333333333333333,
+        "lower": 0.5666666666666667,
+        "upper": 0.8666666666666667,
+        "std_err": 0.07897248457524086
+      },
+      "recall_at_1": {
+        "point": 0.1982022607022607,
+        "lower": 0.12509343434343434,
+        "upper": 0.28066056397306394,
+        "std_err": 0.04020048479039702
+      },
+      "ndcg_at_1": {
+        "point": 0.7333333333333333,
+        "lower": 0.5666666666666667,
+        "upper": 0.9,
+        "std_err": 0.08243210368773234
+      },
+      "hit_rate_at_1": {
+        "point": 0.7333333333333333,
+        "lower": 0.5666666666666667,
+        "upper": 0.9,
+        "std_err": 0.08270329734023008
+      },
+      "precision_at_3": {
+        "point": 0.6555555555555554,
+        "lower": 0.5777777777777777,
+        "upper": 0.7333333333333335,
+        "std_err": 0.041417863175293015
+      },
+      "recall_at_3": {
+        "point": 0.5253463203463203,
+        "lower": 0.4102000962000961,
+        "upper": 0.6440927128427129,
+        "std_err": 0.06105136155468488
+      },
+      "ndcg_at_3": {
+        "point": 0.7724160512179097,
+        "lower": 0.6856287874159444,
+        "upper": 0.8523371557958801,
+        "std_err": 0.040790901039031956
+      },
+      "hit_rate_at_3": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      },
+      "precision_at_5": {
+        "point": 0.5133333333333333,
+        "lower": 0.4333333333333333,
+        "upper": 0.5933333333333334,
+        "std_err": 0.04066898257790205
+      },
+      "recall_at_5": {
+        "point": 0.6116967291967292,
+        "lower": 0.5045556156806158,
+        "upper": 0.7303210678210679,
+        "std_err": 0.058218421716288334
+      },
+      "ndcg_at_5": {
+        "point": 0.7499576578586679,
+        "lower": 0.6735098318441619,
+        "upper": 0.8181592145095429,
+        "std_err": 0.037782988105603786
+      },
+      "hit_rate_at_5": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      },
+      "precision_at_10": {
+        "point": 0.38666666666666655,
+        "lower": 0.30999999999999994,
+        "upper": 0.4733333333333333,
+        "std_err": 0.043309204544870375
+      },
+      "recall_at_10": {
+        "point": 0.7458152958152958,
+        "lower": 0.6592888407888408,
+        "upper": 0.8359753487253487,
+        "std_err": 0.045085438807991575
+      },
+      "ndcg_at_10": {
+        "point": 0.7408651813188213,
+        "lower": 0.6714086931847216,
+        "upper": 0.8078121560537306,
+        "std_err": 0.03493345655134822
+      },
+      "hit_rate_at_10": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      },
+      "mrr": {
+        "point": 0.8555555555555555,
+        "lower": 0.7611111111111111,
+        "upper": 0.9333333333333333,
+        "std_err": 0.044293481798271
+      },
+      "context_relevance": {
+        "point": 0.47,
+        "lower": 0.38325000000000004,
+        "upper": 0.55675,
+        "std_err": 0.04595970342357779
+      }
+    },
+    "challenger": {
+      "precision_at_1": {
+        "point": 0.8,
+        "lower": 0.6333333333333333,
+        "upper": 0.9333333333333333,
+        "std_err": 0.0720229019793054
+      },
+      "recall_at_1": {
+        "point": 0.3237962962962963,
+        "lower": 0.20878472222222222,
+        "upper": 0.4569120370370369,
+        "std_err": 0.06269103212624028
+      },
+      "ndcg_at_1": {
+        "point": 0.8,
+        "lower": 0.6666666666666666,
+        "upper": 0.9333333333333333,
+        "std_err": 0.07150540555107024
+      },
+      "hit_rate_at_1": {
+        "point": 0.8,
+        "lower": 0.6333333333333333,
+        "upper": 0.9333333333333333,
+        "std_err": 0.0765194870511116
+      },
+      "precision_at_3": {
+        "point": 0.622222222222222,
+        "lower": 0.5222222222222223,
+        "upper": 0.7222222222222222,
+        "std_err": 0.05165351743726092
+      },
+      "recall_at_3": {
+        "point": 0.5684126984126984,
+        "lower": 0.46196527777777774,
+        "upper": 0.6786597222222223,
+        "std_err": 0.05506582709694081
+      },
+      "ndcg_at_3": {
+        "point": 0.7926463985334979,
+        "lower": 0.7045534061366708,
+        "upper": 0.873985660090245,
+        "std_err": 0.04400050849446468
+      },
+      "hit_rate_at_3": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      },
+      "precision_at_5": {
+        "point": 0.5599999999999999,
+        "lower": 0.44666666666666666,
+        "upper": 0.6533333333333334,
+        "std_err": 0.051484085890582516
+      },
+      "recall_at_5": {
+        "point": 0.7280291005291004,
+        "lower": 0.6529593253968253,
+        "upper": 0.8009282407407408,
+        "std_err": 0.038117647548850095
+      },
+      "ndcg_at_5": {
+        "point": 0.8108682156204102,
+        "lower": 0.7387776609099758,
+        "upper": 0.8732749389630512,
+        "std_err": 0.034926331616884215
+      },
+      "hit_rate_at_5": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      },
+      "precision_at_10": {
+        "point": 0.44333333333333325,
+        "lower": 0.34666666666666673,
+        "upper": 0.5466666666666667,
+        "std_err": 0.050133638668768264
+      },
+      "recall_at_10": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      },
+      "ndcg_at_10": {
+        "point": 0.890035514434299,
+        "lower": 0.839575189075372,
+        "upper": 0.9344909517032947,
+        "std_err": 0.02449478539655622
+      },
+      "hit_rate_at_10": {
+        "point": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "std_err": 0.0
+      },
+      "mrr": {
+        "point": 0.8944444444444444,
+        "lower": 0.8166666666666665,
+        "upper": 0.9666666666666667,
+        "std_err": 0.03783701284159921
+      },
+      "context_relevance": {
+        "point": 0.49333333333333335,
+        "lower": 0.4,
+        "upper": 0.5933333333333334,
+        "std_err": 0.05203288563835876
+      }
+    },
+    "primary_metric": "ndcg_at_5",
+    "delta": 0.06091055776174237,
+    "significance": {
+      "statistic": 147.5,
+      "p_value": 0.31858915442588154,
+      "significant": false
+    },
+    "beats_baseline": false
+  },
+  "error_analysis": [
+    {
+      "id": "q027",
+      "question": "What is the price match guarantee?",
+      "category": "standard",
+      "ndcg_at_5": 0.34519134224686937,
+      "n_retrieved": 10,
+      "n_relevant_found": 2,
+      "n_relevant_total": 5,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q004",
+      "question": "Can I return a gift card?",
+      "category": "standard",
+      "ndcg_at_5": 0.49818925746641285,
+      "n_retrieved": 10,
+      "n_relevant_found": 2,
+      "n_relevant_total": 3,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q011",
+      "question": "What payment methods are accepted?",
+      "category": "standard",
+      "ndcg_at_5": 0.5,
+      "n_retrieved": 10,
+      "n_relevant_found": 1,
+      "n_relevant_total": 1,
+      "failure_mode": "ranking_error"
+    },
+    {
+      "id": "q014",
+      "question": "My payment was declined. What should I do?",
+      "category": "standard",
+      "ndcg_at_5": 0.5654495432396527,
+      "n_retrieved": 10,
+      "n_relevant_found": 3,
+      "n_relevant_total": 4,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q026",
+      "question": "Can I use multiple promo codes on one order?",
+      "category": "standard",
+      "ndcg_at_5": 0.6131471927654584,
+      "n_retrieved": 10,
+      "n_relevant_found": 1,
+      "n_relevant_total": 2,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q028",
+      "question": "Does ACME sell my personal data?",
+      "category": "standard",
+      "ndcg_at_5": 0.6131471927654584,
+      "n_retrieved": 10,
+      "n_relevant_found": 1,
+      "n_relevant_total": 2,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q018",
+      "question": "Can I update my email address on my account?",
+      "category": "standard",
+      "ndcg_at_5": 0.6164336326286644,
+      "n_retrieved": 10,
+      "n_relevant_found": 3,
+      "n_relevant_total": 6,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q024",
+      "question": "How do I escalate a complaint?",
+      "category": "standard",
+      "ndcg_at_5": 0.6608397947263839,
+      "n_retrieved": 10,
+      "n_relevant_found": 4,
+      "n_relevant_total": 7,
+      "failure_mode": "partial_recall"
+    },
+    {
+      "id": "q030",
+      "question": "Are custom-made products eligible for return?",
+      "category": "standard",
+      "ndcg_at_5": 0.6934264036172708,
+      "n_retrieved": 10,
+      "n_relevant_found": 2,
+      "n_relevant_total": 2,
+      "failure_mode": "ranking_error"
+    },
+    {
+      "id": "q012",
+      "question": "Is my payment information secure?",
+      "category": "standard",
+      "ndcg_at_5": 0.7039180890341347,
+      "n_retrieved": 10,
+      "n_relevant_found": 2,
+      "n_relevant_total": 3,
+      "failure_mode": "partial_recall"
+    }
+  ]
+}

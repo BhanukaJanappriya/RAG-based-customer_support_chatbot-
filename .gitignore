@@ -19,5 +19,12 @@ evaluation_results.json
 data/chroma_db/*
 !data/chroma_db/.gitkeep
 
+# Usage analytics (runtime data)
+data/analytics.db
+
 # Hugging Face model cache
 .cache/
+
+# Experiment scratch space (regenerable, not deliverables)
+experiments/mlruns/
+experiments/chroma_experiments/
