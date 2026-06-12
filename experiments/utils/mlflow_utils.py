@@ -70,7 +70,8 @@ def log_run(
     Yields:
         The active MLflow run object.
     """
-    with mlflow.start_run(run_name=run_name, tags=tags or {}) as run:
+    nested = mlflow.active_run() is not None
+    with mlflow.start_run(run_name=run_name, tags=tags or {}, nested=nested) as run:
         # Flatten nested dicts for MLflow's flat param store
         flat_params = _flatten_dict(params)
         # MLflow param values must be strings ≤ 500 chars
