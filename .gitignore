@@ -21,3 +21,7 @@ data/chroma_db/*
 
 # Hugging Face model cache
 .cache/
+
+# Experiment scratch space (regenerable, not deliverables)
+experiments/mlruns/
+experiments/chroma_experiments/
