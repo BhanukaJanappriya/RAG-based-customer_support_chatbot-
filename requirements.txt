@@ -24,6 +24,9 @@ uvicorn[standard]>=0.30.0
 # Frontend
 streamlit>=1.38.0
 
+# Analytics dashboard (data wrangling for the usage analytics page)
+pandas>=2.0.0
+
 # Configuration & validation
 pydantic>=2.8.0
 pydantic-settings>=2.4.0

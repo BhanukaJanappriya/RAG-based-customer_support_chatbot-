@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     chroma_persist_dir: str = "./data/chroma_db"
     chroma_collection_name: str = "customer_support_docs"
 
+    # --- Analytics ---
+    analytics_db_path: str = "./data/analytics.db"
+
     # --- Ingestion ---
     raw_data_dir: str = "./data/raw"
     chunk_size: int = 512
@@ -50,6 +53,10 @@ class Settings(BaseSettings):
     @property
     def raw_data_path(self) -> Path:
         return Path(self.raw_data_dir)
+
+    @property
+    def analytics_path(self) -> Path:
+        return Path(self.analytics_db_path)
 
 
 settings = Settings()

@@ -2,11 +2,13 @@
 
 import json
 import logging
+import time
 from typing import AsyncGenerator
 
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 
+from app.analytics import log_query
 from app.api.models import ChatRequest, HealthResponse
 from app.config import settings
 from app.generation.chain import astream_response
@@ -49,10 +51,14 @@ async def chat(request: ChatRequest) -> StreamingResponse:
 
     async def event_stream() -> AsyncGenerator[str, None]:
         full_response = ""
+        sources: list = []
+        start_time = time.perf_counter()
         try:
             async for event in astream_response(request.query, chat_history):
                 if event["type"] == "token":
                     full_response += event["content"]
+                elif event["type"] == "sources":
+                    sources = event["content"]
                 yield f"data: {json.dumps(event)}\n\n"
         except Exception as exc:
             logger.error(f"Streaming error for session {request.session_id}: {exc}")
@@ -60,6 +66,8 @@ async def chat(request: ChatRequest) -> StreamingResponse:
         finally:
             if full_response:
                 add_to_history(request.session_id, request.query, full_response)
+                latency_ms = (time.perf_counter() - start_time) * 1000
+                log_query(request.session_id, request.query, full_response, latency_ms, sources)
 
     return StreamingResponse(
         event_stream(),

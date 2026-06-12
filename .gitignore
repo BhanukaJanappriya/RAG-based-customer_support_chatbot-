@@ -19,6 +19,9 @@ evaluation_results.json
 data/chroma_db/*
 !data/chroma_db/.gitkeep
 
+# Usage analytics (runtime data)
+data/analytics.db
+
 # Hugging Face model cache
 .cache/
 
