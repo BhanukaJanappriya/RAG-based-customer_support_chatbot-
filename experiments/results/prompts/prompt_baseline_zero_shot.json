@@ -1,0 +1,224 @@
+{
+  "template_name": "baseline_zero_shot",
+  "faithfulness_heuristic_mean": 0.48953288911623555,
+  "faithfulness_heuristic_ci": {
+    "point": 0.48953288911623555,
+    "lower": 0.39190057701757014,
+    "upper": 0.5784957211733107,
+    "std_err": 0.04828935291620692
+  },
+  "citation_rate": 0.3,
+  "mean_latency_ms": 23026.732555004128,
+  "n_evaluated": 20,
+  "true_refusal_rate": 1.0,
+  "false_refusal_rate": 0.2,
+  "f1_refusal": 1.0,
+  "n_out_of_scope": 5,
+  "n_standard": 5,
+  "per_response": [
+    {
+      "id": "q001",
+      "question": "What is the return window for purchases?",
+      "category": "standard",
+      "response_snippet": "According to our Return Policy, the return window for purchases is within 30 days of the original purchase date. [Source: customer_support_kb.txt, p.1",
+      "faithfulness": 0.5,
+      "has_citation": true,
+      "is_refusal": false,
+      "latency_ms": 35093.22070000053
+    },
+    {
+      "id": "q002",
+      "question": "How do I start a return?",
+      "category": "standard",
+      "response_snippet": "To start a return, follow these steps:\n\n* Visit our Returns Portal at www.acmestore.com/returns\n* Enter your order number and email address\n* Receive ",
+      "faithfulness": 0.7692307692307693,
+      "has_citation": false,
+      "is_refusal": false,
+      "latency_ms": 22835.327099994174
+    },
+    {
+      "id": "q003",
+      "question": "How long does a refund take to process?",
+      "category": "standard",
+      "response_snippet": "According to our Return Policy [Source: customer_support_kb.txt, p.1], once we receive and inspect the returned item, we will process your refund with",
+      "faithfulness": 0.7333333333333333,
+      "has_citation": true,
+      "is_refusal": false,
+      "latency_ms": 20304.082100003143
+    },
+    {
+      "id": "q004",
+      "question": "Can I return a gift card?",
+      "category": "standard",
+      "response_snippet": "I don't have enough information to answer that.\n\nWould you like me to guide you through the Returns Portal process or provide more general information",
+      "faithfulness": 0.29411764705882354,
+      "has_citation": false,
+      "is_refusal": true,
+      "latency_ms": 19366.53600000136
+    },
+    {
+      "id": "q005",
+      "question": "What should I do if I received the wrong item?",
+      "category": "standard",
+      "response_snippet": "If you received the wrong item, follow these steps:\n\n* Contact our support team with your order number and a photo of the issue\n* We will arrange a re",
+      "faithfulness": 0.75,
+      "has_citation": false,
+      "is_refusal": false,
+      "latency_ms": 16254.37690000399
+    },
+    {
+      "id": "q031",
+      "question": "If I order $60 worth of items and use express shipping, what is my total shipping cost?",
+      "category": "multi_hop",
+      "response_snippet": "To calculate your total shipping cost:\n\n* Standard shipping on orders over $50 is free.\n* Since you ordered $60 worth of items, standard shipping is f",
+      "faithfulness": 0.42857142857142855,
+      "has_citation": false,
+      "is_refusal": false,
+      "latency_ms": 28325.11570000497
+    },
+    {
+      "id": "q032",
+      "question": "I want to buy now and pay later, but also use a promo code. Is that possible?",
+      "category": "multi_hop",
+      "response_snippet": "According to our store's policies, codes cannot be combined with other offers or applied to previous orders.\n\nHowever, you can still use both the buy-",
+      "faithfulness": 0.5625,
+      "has_citation": false,
+      "is_refusal": false,
+      "latency_ms": 26511.436600005254
+    },
+    {
+      "id": "q033",
+      "question": "My product arrived defective. Can I get a replacement and how long does the warranty cover it?",
+      "category": "multi_hop",
+      "response_snippet": "We're sorry to hear that your product arrived defective.\n\n* You can exchange it for a replacement at no additional cost.\n* The 12-month manufacturer's",
+      "faithfulness": 0.6410256410256411,
+      "has_citation": true,
+      "is_refusal": false,
+      "latency_ms": 26016.866600009962
+    },
+    {
+      "id": "q034",
+      "question": "If I delete my account, what happens to my reward points?",
+      "category": "multi_hop",
+      "response_snippet": "I don't have enough information to answer that.\n\nHowever, according to the ACME Rewards Programme section in our knowledge base [Source: customer_supp",
+      "faithfulness": 0.46153846153846156,
+      "has_citation": true,
+      "is_refusal": true,
+      "latency_ms": 21477.111900007003
+    },
+    {
+      "id": "q035",
+      "question": "I placed an international order. Who pays the import duties, and can I return the item if I change my mind?",
+      "category": "multi_hop",
+      "response_snippet": "According to our shipping policy [Source: customer_support_kb.txt, p.1], International orders typically arrive within 10\u201321 business days.\n\n* Import d",
+      "faithfulness": 0.6923076923076923,
+      "has_citation": true,
+      "is_refusal": false,
+      "latency_ms": 28245.10650000593
+    },
+    {
+      "id": "q037",
+      "question": "What is the best product for my back pain?",
+      "category": "out_of_scope",
+      "response_snippet": "I don't have enough information to answer that.\n\nHowever, I can suggest some general options available at ACME Store:\n\n* If you're looking for a solut",
+      "faithfulness": 0.024390243902439025,
+      "has_citation": false,
+      "is_refusal": true,
+      "latency_ms": 26067.020800008322
+    },
+    {
+      "id": "q038",
+      "question": "How do I cook pasta?",
+      "category": "out_of_scope",
+      "response_snippet": "I don't have enough information to answer that.\n\nWould you like me to help with something else related to your account or order at ACMESTORE.COM?",
+      "faithfulness": 0.2727272727272727,
+      "has_citation": false,
+      "is_refusal": true,
+      "latency_ms": 16129.246900003636
+    },
+    {
+      "id": "q039",
+      "question": "What is ACME's stock price today?",
+      "category": "out_of_scope",
+      "response_snippet": "I don't have enough information to answer that. The retrieved context only provides general customer support information about ACME Store, but does no",
+      "faithfulness": 0.15,
+      "has_citation": false,
+      "is_refusal": true,
+      "latency_ms": 23315.02300000284
+    },
+    {
+      "id": "q040",
+      "question": "Are ACME products better than Amazon's products?",
+      "category": "out_of_scope",
+      "response_snippet": "I don't have enough information to answer that. The retrieved context only provides general information about the ACME Store's return policy, discount",
+      "faithfulness": 0.3235294117647059,
+      "has_citation": false,
+      "is_refusal": true,
+      "latency_ms": 6954.3546000059
+    },
+    {
+      "id": "q041",
+      "question": "What is the weather like in New York today?",
+      "category": "out_of_scope",
+      "response_snippet": "I don't have enough information to answer that. The retrieved context only provides general customer support information, including contact channels a",
+      "faithfulness": 0.17142857142857143,
+      "has_citation": false,
+      "is_refusal": true,
+      "latency_ms": 22350.765200011665
+    },
+    {
+      "id": "q044",
+      "question": "How do I contact you?",
+      "category": "ambiguous",
+      "response_snippet": "You can contact us through the following channels:\n\n* Live Chat: Available on our website during support hours. Average response time is under 2 minut",
+      "faithfulness": 0.6785714285714286,
+      "has_citation": false,
+      "is_refusal": false,
+      "latency_ms": 24037.09820000222
+    },
+    {
+      "id": "q045",
+      "question": "Is the item covered?",
+      "category": "ambiguous",
+      "response_snippet": "To determine if an item is covered under warranty, please check the product page for details on extended warranties. According to our knowledge base [",
+      "faithfulness": 0.5,
+      "has_citation": true,
+      "is_refusal": false,
+      "latency_ms": 23764.649399992777
+    },
+    {
+      "id": "q046",
+      "question": "What is the return policy for sale items?",
+      "category": "ambiguous",
+      "response_snippet": "I don't have enough information to answer that.\n\nHowever, according to our customer support knowledge base (Source: customer_support_kb.txt, p.1), we ",
+      "faithfulness": 0.4594594594594595,
+      "has_citation": false,
+      "is_refusal": true,
+      "latency_ms": 25760.198800009675
+    },
+    {
+      "id": "q047",
+      "question": "How long does shipping take?",
+      "category": "ambiguous",
+      "response_snippet": "Here are the estimated delivery times for our standard and express shipping options:\n\n* Standard Shipping: 5\u20137 business days\n* Express Shipping: 2\u20133 b",
+      "faithfulness": 0.7692307692307693,
+      "has_citation": false,
+      "is_refusal": false,
+      "latency_ms": 21747.727100009797
+    },
+    {
+      "id": "q048",
+      "question": "Can I get a refund?",
+      "category": "ambiguous",
+      "response_snippet": "To determine if you're eligible for a refund, let's review the ACME Store's Return Policy:\n\n* You must initiate the return within 30 days of the origi",
+      "faithfulness": 0.6086956521739131,
+      "has_citation": false,
+      "is_refusal": false,
+      "latency_ms": 25979.386999999406
+    }
+  ],
+  "false_refusals": [
+    "Can I return a gift card?"
+  ],
+  "missed_refusals": []
+}

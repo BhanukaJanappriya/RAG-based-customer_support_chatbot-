@@ -3,6 +3,11 @@
 
 experiment_name: "prompt_ablation"
 
+# Per-category subsample size (4 categories: standard, multi_hop, out_of_scope,
+# ambiguous). With this set to 5, the eval set is ~18-20 pairs instead of 50,
+# cutting an 8-template sweep from ~2.5h to ~35min on CPU-only Ollama.
+prompt_sample_per_category: 5
+
 # Fix these to winners from prior experiments before running
 embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
 retrieval_method: "dense_only"
