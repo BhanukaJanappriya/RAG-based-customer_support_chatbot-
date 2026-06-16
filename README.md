@@ -279,7 +279,7 @@ CHUNK_SIZE=256
 CHUNK_OVERLAP=32
 ```
 
-The MiniLM model itself needs ~90 MB. The bottleneck is holding many chunk tensors in RAM at once — smaller chunks reduce peak usage.
+The MiniLM model itself needs ~90 MB. The bottleneck is holding many chunk tensors in RAM at once - smaller chunks reduce peak usage.
 
 ---
 
