@@ -8,7 +8,7 @@
 [![Ollama](https://img.shields.io/badge/LLM-Ollama%20%7C%20Llama%203.2-000000.svg?logo=ollama&logoColor=white)](https://ollama.com/)
 [![ChromaDB](https://img.shields.io/badge/Vector%20Store-ChromaDB-FFA000.svg)](https://www.trychroma.com/)
 
-A fully local Retrieval-Augmented Generation (RAG) chatbot for customer support, built as a collaborative undergraduate project. Zero API costs, zero cloud dependencies; Everything runs on your laptop, with streamed answers, cited sources, and a text-to-speech voice that reads replies aloud in a male or female voice.
+A fully local Retrieval-Augmented Generation (RAG) chatbot for customer support, built as a  collaborative undergraduate project. Zero API costs, zero cloud dependencies; Everything runs on your laptop, with streamed answers, cited sources, and a text-to-speech voice that reads replies aloud in a male or female voice.
 
 ---
 
@@ -315,5 +315,5 @@ SIMILARITY_THRESHOLD=0.1
 **Common root causes:**
 - Documents were never ingested (collection count = 0 in `/health`).
 - Query language differs from document language (model is English-optimised).
-- `CHROMA_PERSIST_DIR` changed between ingestion and retrieval — both must point to the same path.
+- `CHROMA_PERSIST_DIR` changed between ingestion and retrieval - both must point to the same path.
 - Mixing embedding models between ingest and query runs (vectors become incompatible).
