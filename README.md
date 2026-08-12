@@ -39,14 +39,14 @@ User query ──► embedder.py ──► vector search ──► top-k chunks 
 
 **Data flow:**
 
-- **Ingestion** — `PyPDFLoader` and `TextLoader` pull documents from `data/raw/`. `RecursiveCharacterTextSplitter` breaks them into 512-char chunks with 64-char overlap, preferring paragraph and sentence boundaries.
-- **Embedding & persistence** — `sentence-transformers/all-MiniLM-L6-v2` (384-dim, cosine-normalised, CPU-friendly) embeds each chunk. ChromaDB persists vectors to `data/chroma_db/` with stable IDs (`<filename>__chunk_<n>`) for idempotent re-ingestion.
-- **Retrieval** — At query time the same embedding model encodes the question. ChromaDB returns up to `top_k=4` candidates; any chunk scoring below `similarity_threshold=0.3` is dropped before reaching the LLM.
-- **Generation** — Filtered chunks are formatted into a cited context block (`[Source: file.pdf, p.N]`) and injected into a structured system prompt alongside the last 10 conversation turns. Llama 3.2 1B Instruct (via Ollama) is explicitly instructed to refuse if context is insufficient.
-- **Streaming API** — FastAPI `POST /chat` runs the LCEL chain with `astream()` and emits Server-Sent Events: `{"type":"token","content":"…"}` per partial token, then `{"type":"sources",…}` and `{"type":"done"}`.
-- **Streamlit UI** — `st.write_stream` consumes the SSE generator in real time. After each response, a collapsible expander shows the cited chunks; the sidebar shows raw retrieved context for transparency.
-- **Voice** — a 🔊 button next to each assistant reply reads it aloud via the browser's Web Speech API, with a Female/Male voice picker in the sidebar. Runs entirely client-side — no extra Python dependencies or server load.
-- **Session memory** — `HumanMessage`/`AIMessage` objects are stored in a per-session in-memory dict, capped at 10 turns, and passed into the prompt's `MessagesPlaceholder` to support multi-turn conversation.
+- **Ingestion** -- `PyPDFLoader` and `TextLoader` pull documents from `data/raw/`. `RecursiveCharacterTextSplitter` breaks them into 512-char chunks with 64-char overlap, preferring paragraph and sentence boundaries.
+- **Embedding & persistence** - `sentence-transformers/all-MiniLM-L6-v2` (384-dim, cosine-normalised, CPU-friendly) embeds each chunk. ChromaDB persists vectors to `data/chroma_db/` with stable IDs (`<filename>__chunk_<n>`) for idempotent re-ingestion.
+- **Retrieval** - At query time the same embedding model encodes the question. ChromaDB returns up to `top_k=4` candidates; any chunk scoring below `similarity_threshold=0.3` is dropped before reaching the LLM.
+- **Generation** - Filtered chunks are formatted into a cited context block (`[Source: file.pdf, p.N]`) and injected into a structured system prompt alongside the last 10 conversation turns. Llama 3.2 1B Instruct (via Ollama) is explicitly instructed to refuse if context is insufficient.
+- **Streaming API** - FastAPI `POST /chat` runs the LCEL chain with `astream()` and emits Server-Sent Events: `{"type":"token","content":"…"}` per partial token, then `{"type":"sources",…}` and `{"type":"done"}`.
+- **Streamlit UI** - `st.write_stream` consumes the SSE generator in real time. After each response, a collapsible expander shows the cited chunks; the sidebar shows raw retrieved context for transparency.
+- **Voice** - a 🔊 button next to each assistant reply reads it aloud via the browser's Web Speech API, with a Female/Male voice picker in the sidebar. Runs entirely client-side — no extra Python dependencies or server load.
+- **Session memory** - `HumanMessage`/`AIMessage` objects are stored in a per-session in-memory dict, capped at 10 turns, and passed into the prompt's `MessagesPlaceholder` to support multi-turn conversation.
 
 ---
 
